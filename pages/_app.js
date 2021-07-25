@@ -1,7 +1,12 @@
 import '../styles/globals.css'
+import NavigationContext from '../data/navigation'
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <NavigationContext>
+      <Component {...pageProps} />
+    </NavigationContext>
+  )
 }
 
 export default MyApp
