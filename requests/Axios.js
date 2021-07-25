@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const Axios = axios.create({
-  baseURL: 'https://todo-sns-backend.herokuapp.com/',
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_HOST,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json"
