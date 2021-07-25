@@ -2,13 +2,10 @@ import axios from "axios";
 
 const Axios = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_HOST,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json"
-  },
 });
 
 Axios.interceptors.response.use(response => {
+  console.log(response);
   console.log(response.headers["access-token"]);
   console.log(response.headers["uid"])
   console.log(response.headers["client"])

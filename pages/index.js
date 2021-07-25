@@ -1,7 +1,8 @@
 import { useContext } from 'react'
 import Layout from "../components/Layout";
-import Home from "../components/Home";
 import { Navigation } from '../data/navigation'
+import Home from "../components/Home";
+import User from "../components/User";
 
 const IndexPage = () => {
   const nav = useContext(Navigation);
@@ -9,7 +10,7 @@ const IndexPage = () => {
     <Layout title="todo sns">
       {nav.current == 0 && (<Home/>)}
       {/* {nav.current == 1 && (<Home/>)} */}
-      {/* {nav.current == 2 && (<Home/>)} */}
+      {nav.current == 2 && (<User/>)}
     </Layout>
   );
 };
