@@ -42,3 +42,13 @@ export const getPosts = async () => {
     throw error;
   }
 };
+
+export const getPost = async () => {
+  try {
+    let res = await Axios.get(`/api/v1/posts/1`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
