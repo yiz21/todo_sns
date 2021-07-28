@@ -1,11 +1,11 @@
-import useSWR from "swr";
-import { getPosts } from '../requests/api'
+import usePost from '../data/usePost'
 const Home = () => {
-  const { posts, error } = useSWR("getPosts", getPosts);
+  const { posts, error } = usePost();
   console.log(posts)
   return (
     <div>
-      <button onClick={() => sharedData.changeValue(1)}>/api/v1/posts (認証なし)</button>
+      Home
+      {posts && posts.forEach((post) => (<p>{post.name}</p>))}
     </div>
   );
 };

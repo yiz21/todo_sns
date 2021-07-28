@@ -14,9 +14,9 @@ export const login = async ({ email, password }) => {
   }
 };
 
-export const logout = async () => {
+export const logOut = async () => {
   try {
-    await Axios.get(`/api/auth/logout`);
+    await Axios.delete(`/auth/sign_out`);
   } catch (error) {
     console.log(error);
   }
@@ -24,9 +24,8 @@ export const logout = async () => {
 
 export const getUser = async () => {
   try {
-    let res = await Axios.get(`/api/v1/posts`);
-
-    return res.data.user;
+    let res = await Axios.get(`/api/v1/users/session_check`);
+    return res.data;
   } catch (error) {
     console.log(error);
     throw error;
@@ -36,6 +35,7 @@ export const getUser = async () => {
 export const getPosts = async () => {
   try {
     let res = await Axios.get(`/api/v1/posts`);
+    console.log(res);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -46,6 +46,7 @@ export const getPosts = async () => {
 export const getPost = async () => {
   try {
     let res = await Axios.get(`/api/v1/posts/1`);
+    console.log(res);
     return res.data;
   } catch (error) {
     console.log(error);
