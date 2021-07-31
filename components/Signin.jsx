@@ -36,10 +36,15 @@ const Signin = () => {
   const classes = useStyles();
   const router = useRouter();
 
-  const handleSignInButton = (e) => {
+  const handleSignInButton = async (e) => {
     e.preventDefault();
-    const res = login({ email: email, password: password });
-    router.push('/');
+    try {
+      const res = await login({ email: email, password: password });
+      router.push('/');
+    } catch (error) {
+      console.log('=========');
+      console.log('error');
+    }
   }
   
   return (
