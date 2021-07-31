@@ -12,6 +12,19 @@ export const login = async ({ email, password }) => {
   }
 };
 
+export const signUp = async ({ email, password }) => {
+  try {
+    const res = await Axios.post(`/auth`, {
+      email,
+      password,
+      confirm_success_url: '/'
+    });
+    return res
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const logOut = async () => {
   try {
     await Axios.delete(`/auth/sign_out`);

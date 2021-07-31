@@ -1,5 +1,3 @@
-// import useSWR from "swr";
-// import { getPosts } from '../requests/api'
 import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useRouter } from 'next/router';
-import { login } from '../requests/api';
+import { signUp } from '../requests/api';
 import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,31 +27,62 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  errorDiv: {
+    marginTop: '1rem',
+  },
+  errorLabel: {
+    fontSize: '0.8rem',
+    color: 'red'
+  }
 }));
 
-const Signin = ({ pushSignUp }) => {
+const Signup = ({ pushSignIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
   const classes = useStyles();
   const router = useRouter();
 
-  const handleSignInButton = async (e) => {
+  const handleSignUpButton = async (e) => {
     e.preventDefault();
+    if (!email || !password || !passwordConfirmation) {
+      setErrorMessage('必須項目を入力してください');
+      return;
+    }
+
+    if (password != passwordConfirmation) {
+      setErrorMessage('パスワードが一致しません');
+      return;
+    }
     try {
-      const res = await login({ email: email, password: password });
-      router.push('/');
+      const res = await signUp({ email: email, password: password });
     } catch (error) {
       console.log('=========');
       console.log('error');
+      console.log(error);
+      return;
     }
+    router.reload();
   }
-  
+
+  const passwordChangeHandler = (val) => {
+    setErrorMessage('');
+    setPassword(val);
+  }
+
+  const passwordConfirmationChangeHandler = (val) => {
+    setErrorMessage('');
+    setPasswordConfirmation(val);
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
-          ログイン
+          アカウント登録
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -62,7 +91,7 @@ const Signin = ({ pushSignUp }) => {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="メールアドレス"
             name="email"
             autoComplete="email"
             autoFocus
@@ -75,25 +104,41 @@ const Signin = ({ pushSignUp }) => {
             required
             fullWidth
             name="password"
-            label="Password"
+            label="パスワード"
             type="password"
             id="password"
             autoComplete="current-password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => passwordChangeHandler(e.target.value)}
           />
-          <Link onClick={() => pushSignUp()} variant="body2">
-            アカウントをお持ちでない方はこちら
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="passwordConfirm"
+            label="パスワードの確認"
+            type="password"
+            id="passwordConfirm"
+            autoComplete="current-password"
+            value={passwordConfirmation}
+            onChange={(e) => passwordConfirmationChangeHandler(e.target.value)}
+          />
+          <Link onClick={() => pushSignIn()} variant="body2">
+            ログインはこちら
           </Link>
+          <div className={classes.errorDiv}>
+            {errorMessage && (<span className={classes.errorLabel}>{errorMessage}</span>)}
+          </div>
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={handleSignInButton}
+            onClick={handleSignUpButton}
           >
-            ログイン
+            登録する
           </Button>
         </form>
       </div>
@@ -101,4 +146,4 @@ const Signin = ({ pushSignUp }) => {
   );
 };
 
-export default Signin;
+export default Signup;

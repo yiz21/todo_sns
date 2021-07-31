@@ -28,9 +28,10 @@ Axios.interceptors.request.use(config => {
   // console.log(localStorage.getItem('uid'));
   // console.log(localStorage.getItem('client'));
   config.headers = {
-    'access-token': localStorage.getItem('access-token') ,
-    'uid': localStorage.getItem('uid') ,
-    'client': localStorage.getItem('client')
+    'access-token': localStorage.getItem('access-token'),
+    'uid': localStorage.getItem('uid'),
+    'client': localStorage.getItem('client'),
+    'content-type': 'application/json'
   }
   return config;
 });

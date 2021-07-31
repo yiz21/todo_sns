@@ -1,18 +1,26 @@
-import useUser from '../data/useUser'
+import { useState } from 'react';
+import useUser from '../data/useUser';
 import Profile from '../components/Profile';
 import Signin from '../components/Signin';
+import Signup from '../components/Signup';
 
 const User = () => {
   const { loading, loggedIn, user } = useUser();
-  console.log(`loading => ${loading}`);
-  console.log(`loggedIn => ${loggedIn}`);
-  console.log(`user => ${user}`);
+  const [signUp, setSignUp] = useState(false);
+  // console.log(`loading => ${loading}`);
+  // console.log(`loggedIn => ${loggedIn}`);
+  // console.log(`user => ${user}`);
+
+  const pushSignUp = () => {setSignUp(true)};
+  const pushSignIn = () => {setSignUp(false)};
 
   return (
     <>
       {loading && <div>loading</div>}
       {!loading && loggedIn && <Profile/>}
-      {!loading && !loggedIn && <Signin/>}
+      {!loading && !loggedIn && !signUp && <Signin pushSignUp={pushSignUp}/>}
+      {!loading && !loggedIn && signUp && <Signup pushSignIn={pushSignIn}/>}
+
     </>
   );
 };
