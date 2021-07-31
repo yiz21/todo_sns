@@ -5,7 +5,8 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import FindInPageOutlinedIcon from '@material-ui/icons/FindInPageOutlined';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import { Navigation } from '../data/navigation'
+import { Navigation } from '../data/navigation';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles({
   root: {
@@ -18,12 +19,15 @@ const useStyles = makeStyles({
 export default function BottomNav() {
   const classes = useStyles();
   const nav = useContext(Navigation);
+  const router = useRouter();
+  
+  const navMap = ['/', '/Browse', '/User']
   return (
     <BottomNavigation
       value={nav.current}
       onChange={(event, newValue) => {
-        console.log(newValue);
         nav.changeNav(newValue);
+        router.push(navMap[newValue])
       }}
       showLabels
       className={classes.root}

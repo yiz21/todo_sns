@@ -35,7 +35,6 @@ export const getUser = async () => {
 export const getPosts = async () => {
   try {
     let res = await Axios.get(`/api/v1/posts`);
-    console.log(res);
     return res.data;
   } catch (error) {
     console.log(error);

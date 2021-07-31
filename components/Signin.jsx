@@ -34,11 +34,12 @@ const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const classes = useStyles();
+  const router = useRouter();
 
   const handleSignInButton = (e) => {
     e.preventDefault();
     const res = login({ email: email, password: password });
-    console.log(res);
+    router.push('/');
   }
   
   return (

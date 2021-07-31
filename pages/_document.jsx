@@ -3,8 +3,6 @@ import Document, {
   Head,
   Main,
   NextScript,
-  DocumentContext,
-  DocumentInitialProps,
 } from "next/document";
 
 class MyDocument extends Document {

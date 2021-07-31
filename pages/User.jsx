@@ -1,6 +1,6 @@
 import useUser from '../data/useUser'
-import Profile from './Profile';
-import Signin from './Signin';
+import Profile from '../components/Profile';
+import Signin from '../components/Signin';
 
 const User = () => {
   const { loading, loggedIn, user } = useUser();
