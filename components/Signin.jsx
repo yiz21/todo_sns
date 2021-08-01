@@ -1,6 +1,6 @@
 // import useSWR from "swr";
 // import { getPosts } from '../requests/api'
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 import { useRouter } from 'next/router';
 import { login } from '../requests/api';
 import Link from '@material-ui/core/Link';
+import { Snack } from '../data/snack';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,9 +37,12 @@ const Signin = ({ pushSignUp }) => {
   const [password, setPassword] = useState('');
   const classes = useStyles();
   const router = useRouter();
+  const snack = useContext(Snack);
 
   const handleSignInButton = async (e) => {
     e.preventDefault();
+    snack.setSnackMessage('aaaaa');
+    snack.snackOn('error');
     try {
       const res = await login({ email: email, password: password });
       router.push('/');
