@@ -41,14 +41,14 @@ const Signin = ({ pushSignUp }) => {
 
   const handleSignInButton = async (e) => {
     e.preventDefault();
-    snack.setSnackMessage('aaaaa');
-    snack.snackOn('error');
     try {
       const res = await login({ email: email, password: password });
+      snack.setSnackMessage('ログインに成功しました');
+      snack.snackOn();
       router.push('/');
     } catch (error) {
-      console.log('=========');
-      console.log('error');
+      snack.setSnackMessage('ログインに失敗しました');
+      snack.snackOn('error');
     }
   }
   

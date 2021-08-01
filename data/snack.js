@@ -30,6 +30,8 @@ const SnackbarContext = ({ children }) => {
   const snackOn = (kind) => {
     if (kind) {
       setKind(kind);
+    } else {
+      setKind('success');
     }
     changeSnack(true);
   };
@@ -38,9 +40,7 @@ const SnackbarContext = ({ children }) => {
     if (reason === 'clickaway') {
       return;
     }
-    changeSnack(false, () => {
-      setKind('success');
-    });
+    changeSnack(false);
   };
 
   return (
