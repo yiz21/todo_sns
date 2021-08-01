@@ -48,7 +48,12 @@ const SnackbarContext = ({ children }) => {
       setSnackMessage: (message) => changeMessage(message),
       snackOn: (kind) => snackOn(kind),
     }}>
-      <Snackbar open={snack} autoHideDuration={3000} onClose={handleClose}>
+      <Snackbar
+        open={snack}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
         <Alert onClose={handleClose} severity={kind}>
           {message}
         </Alert>
