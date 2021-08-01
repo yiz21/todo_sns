@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container';
 import { useRouter } from 'next/router';
 import { signUp } from '../requests/api';
 import Link from '@material-ui/core/Link';
+import { Snack } from '../data/snack';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -44,6 +45,7 @@ const Signup = ({ pushSignIn }) => {
 
   const classes = useStyles();
   const router = useRouter();
+  const snack = useContext(Snack);
 
   const handleSignUpButton = async (e) => {
     e.preventDefault();
@@ -59,12 +61,12 @@ const Signup = ({ pushSignIn }) => {
     try {
       const res = await signUp({ email: email, password: password });
     } catch (error) {
-      console.log('=========');
-      console.log('error');
-      console.log(error);
+      console.log('ghjk');
+      snack.snackOn({ kind: 'error', message: 'アカウント登録でエラーが発生しました' });
       return;
     }
-    router.reload();
+    snack.snackOn({ kind: 'success', message: '認証メールを送信しました。確認をお願いします' });
+    pushSignIn()
   }
 
   const passwordChangeHandler = (val) => {

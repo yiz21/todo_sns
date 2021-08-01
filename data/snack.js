@@ -21,38 +21,36 @@ export const Snack = createContext({
 });
 
 const SnackbarContext = ({ children }) => {
-  const [snack, changeSnack] = useState(false);
-  const [kind, setKind] = useState('success');
-  const [message, changeMessage] = useState('');
+  const [state, setState] = React.useState({
+    snack: false,
+    kind: 'success',
+    message: '',
+  });
   const classes = useStyles();
 
-  const snackOn = (kind, message) => {
-    setKind(kind, () => {
-      changeMessage(message, () => {
-        changeSnack(true)
-      });
-    });
+  const snackOn = (props) => {
+    setState({ snack: true, ...props});
   };
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    changeSnack(false);
+    setState({ snack: false});
   };
 
   return (
     <Snack.Provider value={{
-      snackOn: (kind, message) => snackOn(kind, message),
+      snackOn: (...props) => snackOn(...props),
     }}>
       <Snackbar
-        open={snack}
+        open={state.snack}
         autoHideDuration={3000}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Alert onClose={handleClose} severity={kind}>
-          {message}
+        <Alert onClose={handleClose} severity={state.kind}>
+          {state.message}
         </Alert>
       </Snackbar>
       {children}
