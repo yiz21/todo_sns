@@ -1,5 +1,3 @@
-// import useSWR from "swr";
-// import { getPosts } from '../requests/api'
 import React, {useState, useContext} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -43,12 +41,10 @@ const Signin = ({ pushSignUp }) => {
     e.preventDefault();
     try {
       const res = await login({ email: email, password: password });
-      snack.setSnackMessage('ログインに成功しました');
-      snack.snackOn();
+      snack.snackOn('success', 'ログインに成功しました');
       router.push('/');
     } catch (error) {
-      snack.setSnackMessage('ログインに失敗しました');
-      snack.snackOn('error');
+      snack.snackOn('error', 'ログインに失敗しました');
     }
   }
   

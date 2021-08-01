@@ -4,7 +4,7 @@ const Profile = () => {
   return (
     <div>
       プロフィール
-      <button onClick={() => logOut()}>/api/v1/posts (認証なし)</button>
+      <button onClick={() => logOut()}>ログアウト</button>
     </div>
   );
 };

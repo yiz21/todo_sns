@@ -6,9 +6,9 @@ export const Navigation = createContext({
 });
 
 const NavigationContext = ({ children }) => {
-  const [nav, changeNav] = useState(0);
+  const [nav, setNav] = useState(0);
   return (
-    <Navigation.Provider value={{current: nav, changeNav: (to) => changeNav(to)}}>
+    <Navigation.Provider value={{current: nav, changeNav: (to) => setNav(to)}}>
       {children}
     </Navigation.Provider>
   )

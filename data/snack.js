@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Snack = createContext({
-  setSnackMessage: () => {},
   snackOn: () => {},
 });
 
@@ -27,13 +26,12 @@ const SnackbarContext = ({ children }) => {
   const [message, changeMessage] = useState('');
   const classes = useStyles();
 
-  const snackOn = (kind) => {
-    if (kind) {
-      setKind(kind);
-    } else {
-      setKind('success');
-    }
-    changeSnack(true);
+  const snackOn = (kind, message) => {
+    setKind(kind, () => {
+      changeMessage(message, () => {
+        changeSnack(true)
+      });
+    });
   };
 
   const handleClose = (event, reason) => {
@@ -45,8 +43,7 @@ const SnackbarContext = ({ children }) => {
 
   return (
     <Snack.Provider value={{
-      setSnackMessage: (message) => changeMessage(message),
-      snackOn: (kind) => snackOn(kind),
+      snackOn: (kind, message) => snackOn(kind, message),
     }}>
       <Snackbar
         open={snack}
