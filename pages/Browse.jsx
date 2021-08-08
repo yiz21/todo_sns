@@ -1,13 +1,16 @@
-import useSWR from "swr";
-import { getPost } from '../requests/api'
-const Browse = () => {
-  const { post } = useSWR("get_post", getPost);
-  console.log(post);
+import useOpenTodo from '../data/useOpenTodo';
+import BrowseTodoCard from '../components/BrowseTodoCard';
 
+const Browse = () => {
+  const { loading, openTodos } = useOpenTodo();
   return (
     <div>
-      Browse Page
-      { post && post.name }
+      {loading && <div>loading</div>}
+      {!loading && openTodos && (
+        openTodos.map((todo) => (
+          <BrowseTodoCard key={todo.id}/>
+        ))
+      )}
     </div>
 
   );

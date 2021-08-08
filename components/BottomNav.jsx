@@ -10,9 +10,9 @@ import { useRouter } from 'next/router';
 
 const useStyles = makeStyles({
   root: {
-    width: '100%',
-    position: 'absolute',
     bottom: 0,
+    position: 'fixed',
+    width: '100%',
   },
 });
 
@@ -24,13 +24,13 @@ export default function BottomNav() {
   const navMap = ['/', '/Browse', '/User']
   return (
     <BottomNavigation
+      className={classes.root}
       value={nav.current}
       onChange={(event, newValue) => {
         nav.changeNav(newValue);
         router.push(navMap[newValue])
       }}
       showLabels
-      className={classes.root}
     >
       <BottomNavigationAction label="マイリスト" icon={<DescriptionOutlinedIcon />} />
       <BottomNavigationAction label="リストを探す" icon={<FindInPageOutlinedIcon />} />

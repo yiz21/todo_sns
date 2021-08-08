@@ -60,3 +60,12 @@ export const getPost = async () => {
     throw error;
   }
 };
+
+export const getOpenTodos = async () => {
+  try {
+    let res = await Axios.get(`/api/v1/open_todos`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
