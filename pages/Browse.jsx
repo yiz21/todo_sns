@@ -8,7 +8,7 @@ const Browse = () => {
       {loading && <div>loading</div>}
       {!loading && openTodos && (
         openTodos.map((todo) => (
-          <BrowseTodoCard key={todo.id}/>
+          <BrowseTodoCard key={todo.id} todo={todo}/>
         ))
       )}
     </div>

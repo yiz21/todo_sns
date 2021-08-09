@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
+import useSWR from "swr";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -6,6 +7,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import LikeButton from './LikeButton'
+import { openTodoIine } from '../requests/api'
+import { Snack } from '../data/snack';
 
 const useStyles = makeStyles({
   root: {
@@ -14,7 +17,6 @@ const useStyles = makeStyles({
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
-    // transform: 'scale(0.8)',
   },
   title: {
     fontSize: 14,
@@ -26,19 +28,21 @@ const useStyles = makeStyles({
   actionButton: {
     float: 'right'
   },
-
-  likeButton: {
-    backgroundColor: 'rgb(231, 76, 60)',
-    color: 'white',
-    padding: '0.8rem',
-    borderRadius: '0.4rem',
-    cursor: 'pointer',
-  }
 });
 
-export default function SimpleCard() {
+export default function BrowseTodoCard({ todo }) {
+  const [localTodo, setLocalTodo] = useState(false);
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+  const snack = useContext(Snack);
+
+  const doIine = async () => {
+    try {
+      const res = await openTodoIine(todo.id);
+      setLocalTodo(res)
+    } catch (error) {
+      snack.snackOn({ kind: 'error', message: 'エラーが発生しました' });
+    }
+  };
 
   return (
     <Card className={classes.root}>
@@ -47,20 +51,18 @@ export default function SimpleCard() {
           Word of the Day
         </Typography> */}
         <Typography variant="h5" component="h2">
-          be{bull}nev{bull}o{bull}lent
+          {todo.name}
         </Typography>
         {/* <Typography className={classes.pos} color="textSecondary">
           adjective
         </Typography> */}
         <Typography variant="body2" component="p">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
+          {todo.description}
         </Typography>
       </CardContent>
       <CardActions className={classes.actionButton}>
-        <Button size="small">
-          <LikeButton className={classes.likeButton}/>
+        <Button onClick={() => doIine() }>
+          <LikeButton todo={localTodo ? localTodo : todo} />
         </Button>
         <Button size="small">詳細</Button>
       </CardActions>

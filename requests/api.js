@@ -69,3 +69,12 @@ export const getOpenTodos = async () => {
     throw error;
   }
 };
+
+export const openTodoIine = async (openTodoId) => {
+  try {
+    let res = await Axios.post(`/api/v1/open_todos/${openTodoId}/iine`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
