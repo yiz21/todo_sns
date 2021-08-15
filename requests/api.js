@@ -52,7 +52,7 @@ export const getTodos = async () => {
   }
 };
 
-export const getTodo = async (id) => {
+export const getTodo = async (key, id) => {
   try {
     let res = await Axios.get(`/api/v1/todos/${id}`);
     return res.data;
