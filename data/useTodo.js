@@ -1,13 +1,13 @@
 import useSWR from "swr";
-import { getPosts } from '../requests/api'
+import { getTodos } from '../requests/api'
 
 export default function usePost() {
-  const { data, error, mutate } = useSWR("get_posts", getPosts);
+  const { data, error, mutate } = useSWR("get_todos", getTodos);
   const loading = !data && !error;
 
   return {
     loading,
-    posts: data,
+    todos: data,
     mutate,
   };
 }

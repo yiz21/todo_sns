@@ -43,18 +43,18 @@ export const getUser = async () => {
   }
 };
 
-export const getPosts = async () => {
+export const getTodos = async () => {
   try {
-    let res = await Axios.get(`/api/v1/posts`);
+    let res = await Axios.get(`/api/v1/todos`);
     return res.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const getPost = async () => {
+export const getTodo = async (id) => {
   try {
-    let res = await Axios.get(`/api/v1/posts/1`);
+    let res = await Axios.get(`/api/v1/todos/${id}`);
     return res.data;
   } catch (error) {
     throw error;

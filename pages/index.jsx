@@ -14,7 +14,7 @@
 
 
 import React, { useEffect, useContext } from 'react';
-import usePost from '../data/usePost'
+import useTodo from '../data/useTodo'
 import { Navigation } from '../data/navigation';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 
 export default function RecursiveTreeView() {
   const classes = useStyles();
-  const { posts, error } = usePost();
+  const { todos, error } = useTodo();
   const nav = useContext(Navigation);
   const [selected, setSelected] = React.useState([]);
 
@@ -47,7 +47,7 @@ export default function RecursiveTreeView() {
   const renderTree = (nodes) => {
     return (
       <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
-        {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
+        {Array.isArray(nodes.todos) ? nodes.todos.map((node) => renderTree(node)) : null}
       </TreeItem>
     )
   }
@@ -55,16 +55,17 @@ export default function RecursiveTreeView() {
   return (
     <>
       { 
-        posts &&
-        <TreeView
+        todos && todos.map((todo) => (
+          <TreeView
           className={classes.root}
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpanded={['root']}
           defaultExpandIcon={<ChevronRightIcon />}
           onNodeSelect={handleSelect}
         >
-          {renderTree(posts[0])}
+          {renderTree(todo)}
         </TreeView>
+        ))
       }
     </>
   );
