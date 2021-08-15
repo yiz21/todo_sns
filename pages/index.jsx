@@ -1,18 +1,3 @@
-//   return (
-//     <div>
-//       {
-//         posts && 
-//         posts.map((post) => (
-//           <p key={post.id}>{post.name}</p>
-//         ))
-//       }
-//     </div>
-//   );
-// };
-
-// export default Index;
-
-
 import React, { useEffect, useContext } from 'react';
 import useTodo from '../data/useTodo'
 import { Navigation } from '../data/navigation';
