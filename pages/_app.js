@@ -2,16 +2,17 @@ import '../styles/globals.css';
 import SnackbarContext from '../data/snack';
 import NavigationContext from '../data/navigation';
 import Layout from "../components/Layout";
+import Head from 'next/head'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <SnackbarContext>
-      <NavigationContext>
-        <Layout title="todo sns">
+    <Layout title="todo sns">
+      <SnackbarContext>
+        <NavigationContext>
           <Component {...pageProps} />
-        </Layout>
-      </NavigationContext>
-    </SnackbarContext>
+        </NavigationContext>
+      </SnackbarContext>
+    </Layout>
   )
 }
 
