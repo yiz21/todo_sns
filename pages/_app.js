@@ -6,13 +6,13 @@ import Head from 'next/head'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout title="todo sns">
-      <SnackbarContext>
-        <NavigationContext>
+    <SnackbarContext>
+      <NavigationContext>
+        <Layout title="todo sns">
           <Component {...pageProps} />
-        </NavigationContext>
-      </SnackbarContext>
-    </Layout>
+        </Layout>
+      </NavigationContext>
+    </SnackbarContext>
   )
 }
 

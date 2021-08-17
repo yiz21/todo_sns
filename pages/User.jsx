@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import useUser from '../data/useUser';
 import Profile from '../components/Profile';
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
+import { Navigation } from '../data/navigation';
 
 const User = () => {
   const { loading, loggedIn, user } = useUser();
   const [signUp, setSignUp] = useState(false);
-  // console.log(`loading => ${loading}`);
-  // console.log(`loggedIn => ${loggedIn}`);
-  // console.log(`user => ${user}`);
+  const nav = useContext(Navigation);
+
+  useEffect(() => {
+    nav.changeNav(2);
+  }, []);
 
   const pushSignUp = () => {setSignUp(true)};
   const pushSignIn = () => {setSignUp(false)};
