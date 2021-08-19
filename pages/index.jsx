@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '5rem',
     marginBottom: '2rem',
     marginRight: '1rem',
-    marginLeft: '1rem',
+    marginLeft: '1.3rem',
     position: 'relative',
   },
   todoListCard: {
@@ -100,7 +100,7 @@ export default function Index() {
                 {
                   values.visibleTodo.map((todo) => (
                     <div key={todo.id}>
-                      <ListItem onClick={()=> router.push(`/todo/${todo.id}`)}>
+                      <ListItem onClick={()=> router.push(`/todo/${todo.id}`)} button>
                         <ListItemText primary={todo.name} />
                         <ListItemIcon edge="end" className={classes.itemIcon}>
                           <InboxIcon />
