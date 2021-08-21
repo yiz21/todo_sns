@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function  ShowTodoList({ todo }) {
+export default function  ShowTodoList({ todo, showDescription }) {
   const classes = useStyles();
   const router = useRouter();
   const [checked, setChecked] = React.useState([0]);
@@ -76,7 +76,7 @@ export default function  ShowTodoList({ todo }) {
               />
             </ListItemIcon>
             <ListItemText id={labelId} primary={childTodo.name} />
-            <ListItemSecondaryAction>
+            <ListItemSecondaryAction onClick={() => showDescription(childTodo)}>
               <IconButton edge="end" aria-label="comments">
                 <CommentIcon />
               </IconButton>

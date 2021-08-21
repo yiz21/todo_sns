@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useTodo } from '../../data/useTodo'
 import Card from '@material-ui/core/Card';
@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { useRouter } from 'next/router';
 import ShowTodoList from '../../components/ShowTodoList'
 import Typography from '@material-ui/core/Typography';
-
+import Paper from '@material-ui/core/Paper'
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -19,14 +19,16 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '1rem',
     marginLeft: '1.3rem',
     position: 'relative',
-    minHeight: '50%'
+    height: '40%',
   },
-  card: {
+  paper: {
     marginTop: '1rem',
     marginBottom: '2rem',
     marginRight: '1rem',
     marginLeft: '1.3rem',
     position: 'relative',
+    height: '30%',
+    overflow: 'auto'
   },
   cardContent: {
     padding: 0,
@@ -39,10 +41,12 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 0,
   },
   title: {
-    marginTop: '1rem',
-    marginBottom: '0.5rem',
+    paddingTop: '1rem',
+    paddingBottom: '0.5rem',
     width: '100%',
-    marginLeft: '1.2rem',
+    paddingLeft: '1.2rem',
+    paddingRight: '1rem',
+    height: '10%',
   }
 }));
 
@@ -51,7 +55,15 @@ export default function ShowTodo() {
   const router = useRouter();
   const { id } = router.query
   const { todo, loading, error } = useTodo(id);
+  const [data, setData] = useState({});
+  const [selectedTodo, setSelectedTodo] = useState({});
+
+  useEffect(() => {
+    setData(todo);
+  }, [todo])
   console.log(todo);
+  console.log(selectedTodo);
+
   return (
     <>
       <Typography variant="h6" className={classes.title}>
@@ -59,14 +71,12 @@ export default function ShowTodo() {
       </Typography>
       <Card className={classes.descriptionCard} variant="outlined">
         <CardContent className={classes.cardContent}>
-          This is Now Showed Todo Description !!
+          {selectedTodo && selectedTodo.description}
         </CardContent>
       </Card>
-      <Card className={classes.card} variant="outlined">
-        <CardContent className={classes.cardContent}>
-          { todo && <ShowTodoList todo={todo}/> }
-        </CardContent>
-      </Card>
+      <Paper className={classes.paper}>
+        { todo && <ShowTodoList todo={todo} showDescription={(childTodo) => setSelectedTodo(childTodo)}/> }
+      </Paper>
     </>
   );
 }
