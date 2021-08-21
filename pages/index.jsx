@@ -100,7 +100,7 @@ export default function Index() {
                 {
                   values.visibleTodo.map((todo) => (
                     <div key={todo.id}>
-                      <ListItem onClick={()=> router.push(`/todo/${todo.id}`)} button>
+                      <ListItem onClick={()=> router.push(`/todo/${todo.id}`)}>
                         <ListItemText primary={todo.name} />
                         <ListItemIcon edge="end" className={classes.itemIcon}>
                           <InboxIcon />
