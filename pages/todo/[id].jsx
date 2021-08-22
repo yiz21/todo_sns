@@ -60,9 +60,10 @@ export default function ShowTodo() {
 
   useEffect(() => {
     setData(todo);
+    if(todo.todos) {
+      setSelectedTodo(todo.todos[0])
+    }
   }, [todo])
-  console.log(todo);
-  console.log(selectedTodo);
 
   return (
     <>
