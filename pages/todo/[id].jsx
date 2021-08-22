@@ -60,7 +60,7 @@ export default function ShowTodo() {
 
   useEffect(() => {
     setData(todo);
-    if(todo.todos) {
+    if(todo && todo.todos) {
       setSelectedTodo(todo.todos[0])
     }
   }, [todo])
@@ -76,7 +76,13 @@ export default function ShowTodo() {
         </CardContent>
       </Card>
       <Paper className={classes.paper}>
-        { todo && <ShowTodoList todo={todo} showDescription={(childTodo) => setSelectedTodo(childTodo)}/> }
+        { todo && 
+          <ShowTodoList 
+            todo={todo} 
+            showDescription={(childTodo) => setSelectedTodo(childTodo)}
+            selected={selectedTodo}
+          />
+        }
       </Paper>
     </>
   );

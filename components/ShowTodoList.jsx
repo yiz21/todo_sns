@@ -7,8 +7,8 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/Comment';
 import { useRouter } from 'next/router';
+import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function  ShowTodoList({ todo, showDescription }) {
+export default function  ShowTodoList({ todo, showDescription, selected }) {
   const classes = useStyles();
   const router = useRouter();
   const [checked, setChecked] = React.useState([0]);
@@ -64,7 +64,8 @@ export default function  ShowTodoList({ todo, showDescription }) {
             role={undefined}
             dense
             button
-            onClick={handleToggle(childTodo.id)}
+            onClick={() => showDescription(childTodo)}
+            selected={childTodo == selected}
           >
             <ListItemIcon>
               <Checkbox
@@ -76,9 +77,9 @@ export default function  ShowTodoList({ todo, showDescription }) {
               />
             </ListItemIcon>
             <ListItemText id={labelId} primary={childTodo.name} />
-            <ListItemSecondaryAction onClick={() => showDescription(childTodo)}>
+            <ListItemSecondaryAction onClick={handleToggle(childTodo.id)}>
               <IconButton edge="end" aria-label="comments">
-                <CommentIcon />
+                <PlaylistAddCheck />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
