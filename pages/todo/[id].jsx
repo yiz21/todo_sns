@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   descriptionCard: {
-    marginTop: '1rem',
-    marginBottom: '2rem',
+    // marginTop: '1rem',
+    // marginBottom: '2rem',
     marginRight: '1rem',
     marginLeft: '1.3rem',
     position: 'relative',
@@ -41,12 +41,11 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 0,
   },
   title: {
-    paddingTop: '1rem',
-    paddingBottom: '0.5rem',
+    marginTop: '1rem',
+    marginBottom: '0.2rem',
     width: '100%',
-    paddingLeft: '1.2rem',
-    paddingRight: '1rem',
-    height: '10%',
+    height: '7%',
+    textAlign: 'center'
   }
 }));
 
