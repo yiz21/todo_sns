@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import Input from '@material-ui/core/Input';
 import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
+import BackDrop from '../components/BackDrop';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,7 +77,7 @@ export default function Index() {
 
   return (
     <div className={classes.root}>
-      {loading && <div>loading</div>}
+      {loading && <BackDrop enable={loading}/>}
       {!loading && values.visibleTodo && (
         <>
           <Card className={classes.card} variant="outlined">

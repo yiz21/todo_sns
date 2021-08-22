@@ -4,6 +4,7 @@ import Profile from '../components/Profile';
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import { Navigation } from '../data/navigation';
+import BackDrop from '../components/BackDrop';
 
 const User = () => {
   const { loading, loggedIn, user } = useUser();
@@ -19,7 +20,7 @@ const User = () => {
 
   return (
     <>
-      {loading && <div>loading</div>}
+      {loading && <BackDrop enable={loading}/>}
       {!loading && loggedIn && <Profile/>}
       {!loading && !loggedIn && !signUp && <Signin pushSignUp={pushSignUp}/>}
       {!loading && !loggedIn && signUp && <Signup pushSignIn={pushSignIn}/>}
