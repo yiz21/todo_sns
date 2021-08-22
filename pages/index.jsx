@@ -77,8 +77,8 @@ export default function Index() {
 
   return (
     <div className={classes.root}>
-      {loading && <BackDrop enable={loading}/>}
-      {!loading && values.visibleTodo && (
+      {!loading && <BackDrop enable={!loading}/>}
+      {loading && values.visibleTodo && (
         <>
           <Card className={classes.card} variant="outlined">
             <CardContent className={classes.cardContent}>
