@@ -15,6 +15,8 @@ import Input from '@material-ui/core/Input';
 import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
 import BackDrop from '../components/BackDrop';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,6 +53,15 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '0.5rem',
     width: '100%',
     marginLeft: '1.2rem',
+  },
+  cardInput: {
+    backgroundColor: 'inherit',
+    border: 'none',
+    outline: 'none',
+    color: 'white',
+    width: '100%',
+    paddingTop: '0.5rem',
+    paddingBottom: '0.5rem',
   }
 }));
 
@@ -74,6 +85,22 @@ export default function Index() {
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
+
+  const changeVisibleTodo = (id, value) => {
+    let updateTodos = values["visibleTodo"];
+    updateTodos = updateTodos.map(todo => {
+      if (todo.id == id) {
+        todo.name = value
+        return todo;
+      }
+      return todo;
+    });
+    setValues({ ...values, ['visibleTodo']: updateTodos });
+  }
+
+  const updateTodos = (id) => {
+    console.log('updateTodos is called');
+  }
 
   return (
     <div className={classes.root}>
@@ -101,11 +128,19 @@ export default function Index() {
                 {
                   values.visibleTodo.map((todo) => (
                     <div key={todo.id}>
-                      <ListItem onClick={()=> router.push(`/todo/${todo.id}`)}>
-                        <ListItemText primary={todo.name} />
-                        <ListItemIcon edge="end" className={classes.itemIcon}>
-                          <InboxIcon />
-                        </ListItemIcon>
+                      <ListItem>
+                        <input
+                          type="text"
+                          value={todo.name}
+                          className={classes.cardInput}
+                          onChange={(e) => changeVisibleTodo(todo.id, e.target.value)}
+                          onBlur={(e) => updateTodos(todo.id)}
+                        />
+                        <ListItemSecondaryAction onClick={() => router.push(`/todo/${todo.id}`)}>
+                          <IconButton edge="end" aria-label="comments">
+                            <InboxIcon/>
+                          </IconButton>
+                        </ListItemSecondaryAction>
                       </ListItem>
                       {values.visibleTodo.slice(-1)[0] != todo && <Divider />}
                     </div>
