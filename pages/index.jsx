@@ -6,8 +6,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import InboxIcon from '@material-ui/icons/Inbox';
 import { useRouter } from 'next/router';
@@ -17,6 +15,8 @@ import Typography from '@material-ui/core/Typography';
 import BackDrop from '../components/BackDrop';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
+import { updateTodo } from '../requests/api';
+import { Snack } from '../data/snack';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     paddingTop: '0.5rem',
     paddingBottom: '0.5rem',
+    fontSize: '1rem'
   }
 }));
 
@@ -70,6 +71,7 @@ export default function Index() {
   const nav = useContext(Navigation);
   const router = useRouter();
   const classes = useStyles();
+  const snack = useContext(Snack);
 
   const[values, setValues] = useState({});
 
@@ -98,8 +100,21 @@ export default function Index() {
     setValues({ ...values, ['visibleTodo']: updateTodos });
   }
 
-  const updateTodos = (id) => {
-    console.log('updateTodos is called');
+  const changeTodo = async (id) => {
+    const target = todos.filter(todo => todo.id == id);
+    try {
+      const res = await updateTodo({id, todo: target[0]});
+    } catch (error) {
+      snack.snackOn({ kind: 'error', message: '更新でエラーが発生しました' });
+    }
+  }
+
+  const showTodoList = async (id) => {
+    try {
+      changeTodo(id);
+      router.push(`/todo/${id}`);
+    } catch (error) {
+    }
   }
 
   return (
@@ -134,9 +149,9 @@ export default function Index() {
                           value={todo.name}
                           className={classes.cardInput}
                           onChange={(e) => changeVisibleTodo(todo.id, e.target.value)}
-                          onBlur={(e) => updateTodos(todo.id)}
+                          onBlur={(e) => changeTodo(todo.id)}
                         />
-                        <ListItemSecondaryAction onClick={() => router.push(`/todo/${todo.id}`)}>
+                        <ListItemSecondaryAction onClick={() => showTodoList(todo.id)}>
                           <IconButton edge="end" aria-label="comments">
                             <InboxIcon/>
                           </IconButton>

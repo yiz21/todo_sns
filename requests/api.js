@@ -78,3 +78,14 @@ export const openTodoIine = async (openTodoId) => {
     throw error;
   }
 };
+
+export const updateTodo = async ({ id, todo }) => {
+  try {
+    const res = await Axios.patch(`/api/v1/todos/${id}`, {
+      todo,
+    });
+    return res
+  } catch (error) {
+    throw error;
+  }
+};
