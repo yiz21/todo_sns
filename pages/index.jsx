@@ -15,8 +15,10 @@ import Typography from '@material-ui/core/Typography';
 import BackDrop from '../components/BackDrop';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import { updateTodo } from '../requests/api';
+import { updateTodo, deleteTodo } from '../requests/api';
 import { Snack } from '../data/snack';
+import DeleteForever from '@material-ui/icons/DeleteForever';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,10 +51,21 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   title: {
-    marginTop: '1rem',
-    marginBottom: '0.5rem',
+    paddingBottom: '0.5rem',
+    paddingRight: '1rem',
     width: '100%',
-    marginLeft: '1.2rem',
+    paddingLeft: '1.2rem',
+    position: 'relative',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  titleText: {
+  },
+  deleteButtonDiv: {
+    paddingRight: 0,
+  },
+  deleteModeButton: {
   },
   cardInput: {
     backgroundColor: 'inherit',
@@ -73,7 +86,7 @@ export default function Index() {
   const classes = useStyles();
   const snack = useContext(Snack);
 
-  const[values, setValues] = useState({});
+  const[values, setValues] = useState({ deleteMode: false });
 
   useEffect(() => {
     nav.changeNav(0);
@@ -86,6 +99,10 @@ export default function Index() {
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const setDeleteMode = (state) => {
+    setValues({ ...values, deleteMode: state });
   };
 
   const changeVisibleTodo = (id, value) => {
@@ -117,6 +134,17 @@ export default function Index() {
     }
   }
 
+  const destroyTodo = async (id) => {
+    const excludetarget = todos.filter(todo => todo.id != id);
+    setValues({ ...values, ['visibleTodo']: excludetarget });
+
+    try {
+      deleteTodo(id);
+    } catch (error) {
+      snack.snackOn({ kind: 'error', message: '通信でエラーが発生しました' });
+    }
+  }
+
   return (
     <div className={classes.root}>
       {loading && <BackDrop enable={loading}/>}
@@ -134,9 +162,22 @@ export default function Index() {
               />
             </CardContent>
           </Card>
-          <Typography variant="h6" className={classes.title}>
-              マイリスト
-          </Typography>
+          <div className={classes.title}>
+            <div className={classes.titleText}>
+              <Typography variant="h6" >
+                  マイリスト
+              </Typography>
+            </div>
+            <div className={classes.deleteButtonDiv}>
+              <Button
+                color="secondary"
+                className={classes.deleteModeButton}
+                onClick={() => setDeleteMode(!values.deleteMode)}
+              >
+                {values.deleteMode ? '戻る' : '削除する'}
+              </Button>
+            </div>
+          </div>
           <Card className={classes.todoListCard} variant="outlined">
             <CardContent className={classes.cardContent}>
               <List component="nav" disablePadding dense>
@@ -151,11 +192,22 @@ export default function Index() {
                           onChange={(e) => changeVisibleTodo(todo.id, e.target.value)}
                           onBlur={(e) => changeTodo(todo.id)}
                         />
-                        <ListItemSecondaryAction onClick={() => showTodoList(todo.id)}>
-                          <IconButton edge="end" aria-label="comments">
-                            <InboxIcon/>
-                          </IconButton>
-                        </ListItemSecondaryAction>
+                        {values.deleteMode ? 
+                          (
+                            <ListItemSecondaryAction onClick={() => destroyTodo(todo.id)}>
+                              <IconButton edge="end" aria-label="comments">
+                                <DeleteForever color={'error'}/>
+                              </IconButton>
+                            </ListItemSecondaryAction>
+                          ) : 
+                          (
+                            <ListItemSecondaryAction onClick={() => showTodoList(todo.id)}>
+                              <IconButton edge="end" aria-label="comments">
+                                <InboxIcon/>
+                              </IconButton>
+                            </ListItemSecondaryAction>
+                          )
+                        }
                       </ListItem>
                       {values.visibleTodo.slice(-1)[0] != todo && <Divider />}
                     </div>

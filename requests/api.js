@@ -89,3 +89,12 @@ export const updateTodo = async ({ id, todo }) => {
     throw error;
   }
 };
+
+export const deleteTodo = async (id) => {
+  try {
+    const res = await Axios.delete(`/api/v1/todos/${id}`);
+    return res
+  } catch (error) {
+    throw error;
+  }
+};
