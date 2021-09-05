@@ -7,6 +7,12 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     top: '50%',
     left: '50%',
+    padding: '0.5rem',
+    width: '70%',
+    backgroundColor: theme.palette.background.secondary,
+    border: '3px solid',
+    borderRadius: '8px',
+    borderColor: theme.palette.primary.main,
     transform: 'translate(-50%, -50%)',
   },
 }));

@@ -4,7 +4,9 @@ import Input from '@material-ui/core/Input';
 
 const useStyles = makeStyles((theme) => ({
   inputField: {
-    width: '80%',
+    width: '100%',
+    paddingTop: '0.5rem',
+    paddingBottom: '0.5rem',
   },
 }));
 

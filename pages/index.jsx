@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Index() {
-  const { todos, loading, error } = useTodos();
+  const { todos, loading, error, mutate } = useTodos();
   const nav = useContext(Navigation);
   const router = useRouter();
   const classes = useStyles();
@@ -237,7 +237,7 @@ export default function Index() {
       <SimpleModal
         open={values.createMode}
         handleClose={() => setCreateMode(false)}
-        body={<SimpleForm placeholder={"リストを作成する"} handlePost={(post) => {createTodo(post); setCreateMode(false);}}/>}
+        body={<SimpleForm placeholder={"リストを作成する"} handlePost={(post) => {createTodo(post); setCreateMode(false); mutate();}}/>}
       />
     </div>
   );
