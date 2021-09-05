@@ -7,6 +7,11 @@ import { useRouter } from 'next/router';
 import ShowTodoList from '../../components/ShowTodoList'
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper'
+import FaButton from '../../components/FaButton'
+import SimpleModal from '../../components/SimpleModal'
+import { updateTodo, deleteTodo, postTodo } from '../../requests/api';
+import TitleDescriptionForm from '../../components/TitleDescriptionForm';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -53,8 +58,9 @@ export default function ShowTodo() {
   const classes = useStyles();
   const router = useRouter();
   const { id } = router.query
-  const { todo, loading, error } = useTodo(id);
+  const { todo, loading, error, mutate } = useTodo(id);
   const [data, setData] = useState({});
+  const [mode, setMode] = useState({ createMode: false });
   const [selectedTodo, setSelectedTodo] = useState({});
 
   useEffect(() => {
@@ -62,7 +68,20 @@ export default function ShowTodo() {
     if(todo && todo.todos) {
       setSelectedTodo(todo.todos[0])
     }
-  }, [todo])
+  }, [todo]);
+
+  const setCreateMode = (state) => {
+    setMode({ ...data, createMode: state });
+  };
+
+  const createTodo = async (todo) => {
+    try {
+      const res = await postTodo({todo: {...todo, todo_id: id} });
+    } catch (error) {
+      snack.snackOn({ kind: 'error', message: '更新でエラーが発生しました' });
+    }
+  }
+
 
   return (
     <>
@@ -83,6 +102,12 @@ export default function ShowTodo() {
           />
         }
       </Paper>
+      <FaButton onClick={() => setCreateMode(true)}/>
+      <SimpleModal
+        open={mode.createMode}
+        handleClose={() => setCreateMode(false)}
+        body={<TitleDescriptionForm handlePost={(post) => {createTodo(post); setCreateMode(false); mutate();}}/>}
+      />
     </>
   );
 }
