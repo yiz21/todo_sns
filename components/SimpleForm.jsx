@@ -28,6 +28,7 @@ export default function SimpleForm({placeholder, handlePost}) {
       onChange={(e)=> setValue({ name: e.target.value })}
       value={value.name || ''}
       onKeyPress={(e)=>handleKeyPress(e)}
+      autoFocus={true}
   />
   );
 }
