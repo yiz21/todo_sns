@@ -15,10 +15,13 @@ import Typography from '@material-ui/core/Typography';
 import BackDrop from '../components/BackDrop';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import { updateTodo, deleteTodo } from '../requests/api';
+import { updateTodo, deleteTodo, postTodo } from '../requests/api';
 import { Snack } from '../data/snack';
 import DeleteForever from '@material-ui/icons/DeleteForever';
 import Button from '@material-ui/core/Button';
+import FaButton from '../components/FaButton'
+import SimpleModal from '../components/SimpleModal'
+import SimpleForm from '../components/SimpleForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -86,7 +89,7 @@ export default function Index() {
   const classes = useStyles();
   const snack = useContext(Snack);
 
-  const[values, setValues] = useState({ deleteMode: false });
+  const[values, setValues] = useState({ deleteMode: false, createMode: false });
 
   useEffect(() => {
     nav.changeNav(0);
@@ -105,6 +108,10 @@ export default function Index() {
     setValues({ ...values, deleteMode: state });
   };
 
+  const setCreateMode = (state) => {
+    setValues({ ...values, createMode: state });
+  };
+
   const changeVisibleTodo = (id, value) => {
     let updateTodos = values["visibleTodo"];
     updateTodos = updateTodos.map(todo => {
@@ -121,6 +128,14 @@ export default function Index() {
     const target = todos.filter(todo => todo.id == id);
     try {
       const res = await updateTodo({id, todo: target[0]});
+    } catch (error) {
+      snack.snackOn({ kind: 'error', message: '更新でエラーが発生しました' });
+    }
+  }
+
+  const createTodo = async (todo) => {
+    try {
+      const res = await postTodo({todo: todo});
     } catch (error) {
       snack.snackOn({ kind: 'error', message: '更新でエラーが発生しました' });
     }
@@ -218,6 +233,12 @@ export default function Index() {
           </Card>
         </>
       )}
+      <FaButton onClick={() => setCreateMode(true)}/>
+      <SimpleModal
+        open={values.createMode}
+        handleClose={() => setCreateMode(false)}
+        body={<SimpleForm placeholder={"リストを作成する"} handlePost={(post) => {createTodo(post); setCreateMode(false);}}/>}
+      />
     </div>
   );
 }

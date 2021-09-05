@@ -98,3 +98,12 @@ export const deleteTodo = async (id) => {
     throw error;
   }
 };
+
+export const postTodo = async (todo) => {
+  try {
+    const res = await Axios.post(`/api/v1/todos`, todo);
+    return res
+  } catch (error) {
+    throw error;
+  }
+};
