@@ -158,6 +158,7 @@ export default function Index() {
     } catch (error) {
       snack.snackOn({ kind: 'error', message: '通信でエラーが発生しました' });
     }
+    mutate();
   }
 
   return (
