@@ -135,7 +135,11 @@ export default function Index() {
 
   const createTodo = async (todo) => {
     try {
-      const res = await postTodo({todo: todo});
+      let tempTodos = values.visibleTodo;
+      tempTodos.push(todo);
+      mutate({ ...values, visibleTodo: tempTodos }, false);
+      await postTodo({ todo: todo });
+      mutate();
     } catch (error) {
       snack.snackOn({ kind: 'error', message: '更新でエラーが発生しました' });
     }
@@ -198,7 +202,7 @@ export default function Index() {
             <CardContent className={classes.cardContent}>
               <List component="nav" disablePadding dense>
                 {
-                  values.visibleTodo.map((todo) => (
+                  Array.isArray(values.visibleTodo) && values.visibleTodo.map((todo) => (
                     <div key={todo.id}>
                       <ListItem>
                         <input
