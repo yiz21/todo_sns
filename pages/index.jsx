@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import useTodos from '../data/useTodo'
 import { Navigation } from '../data/navigation';
+import { Mode } from '../data/mode';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -85,11 +86,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Index() {
   const { todos, loading, error, mutate } = useTodos();
   const nav = useContext(Navigation);
+  const snack = useContext(Snack);
+  const mode = useContext(Mode);
   const router = useRouter();
   const classes = useStyles();
-  const snack = useContext(Snack);
 
-  const[values, setValues] = useState({ deleteMode: false, createMode: false });
+  const[values, setValues] = useState({});
 
   useEffect(() => {
     nav.changeNav(0);
@@ -102,14 +104,6 @@ export default function Index() {
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
-  };
-
-  const setDeleteMode = (state) => {
-    setValues({ ...values, deleteMode: state });
-  };
-
-  const setCreateMode = (state) => {
-    setValues({ ...values, createMode: state });
   };
 
   const changeVisibleTodo = (id, value) => {
@@ -188,15 +182,6 @@ export default function Index() {
                   マイリスト
               </Typography>
             </div>
-            <div className={classes.deleteButtonDiv}>
-              <Button
-                color="secondary"
-                className={classes.deleteModeButton}
-                onClick={() => setDeleteMode(!values.deleteMode)}
-              >
-                {values.deleteMode ? '戻る' : '削除する'}
-              </Button>
-            </div>
           </div>
           <Card className={classes.todoListCard} variant="outlined">
             <CardContent className={classes.cardContent}>
@@ -212,7 +197,7 @@ export default function Index() {
                           onChange={(e) => changeVisibleTodo(todo.id, e.target.value)}
                           onBlur={(e) => changeTodo(todo.id)}
                         />
-                        {values.deleteMode ? 
+                        {mode.current == 'delete' ? 
                           (
                             <ListItemSecondaryAction onClick={() => destroyTodo(todo.id)}>
                               <IconButton edge="end" aria-label="comments">
@@ -238,10 +223,10 @@ export default function Index() {
           </Card>
         </>
       )}
-      <FaButton onClick={() => setCreateMode(true)}/>
+      <FaButton onClick={(m) => mode.changeMode(m)} mode={mode.current}/>
       <SimpleModal
-        open={values.createMode}
-        handleClose={() => setCreateMode(false)}
+        open={mode.current == 'create'}
+        handleClose={() => mode.changeMode('normal')}
         body={<SimpleForm placeholder={"リストを作成する"} handlePost={(post) => {createTodo(post); setCreateMode(false); mutate();}}/>}
       />
     </div>
