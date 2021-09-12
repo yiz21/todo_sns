@@ -5,22 +5,17 @@ import { Todo } from '../data/todo';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
 import { useRouter } from 'next/router';
 import Input from '@material-ui/core/Input';
 import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
 import BackDrop from '../components/BackDrop';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteForever from '@material-ui/icons/DeleteForever';
 import ModeButton from '../components/ModeButton'
 import CreateButton from '../components/CreateButton'
 import SimpleModal from '../components/SimpleModal'
 import SimpleForm from '../components/SimpleForm';
+import RootTodoList from '../components/RootTodoList';
+import ModeLabel from '../components/ModeLabel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,9 +59,6 @@ const useStyles = makeStyles((theme) => ({
   },
   titleText: {
   },
-  deleteButtonDiv: {
-    paddingRight: 0,
-  },
   deleteModeButton: {
   },
   cardInput: {
@@ -87,7 +79,7 @@ export default function Index() {
   const todo = useContext(Todo);
   const router = useRouter();
   const classes = useStyles();
-  const[values, setValues] = useState({});
+  const[values, setValues] = useState({visibleTodo: []});
 
   useEffect(() => {
     nav.changeNav(0);
@@ -114,11 +106,12 @@ export default function Index() {
     setValues({ ...values, ['visibleTodo']: updateTodos });
   }
 
-  const showTodoList = async (todo) => {
+  const showTodoList = async (t) => {
     try {
-      todo.updateTodo(todo);
-      router.push(`/todo/${todo.id}`);
+      todo.updateTodo(t);
+      router.push(`/todo/${t.id}`);
     } catch (error) {
+      console.log(error)
     }
   }
 
@@ -148,40 +141,13 @@ export default function Index() {
           </div>
           <Card className={classes.todoListCard} variant="outlined">
             <CardContent className={classes.cardContent}>
-              <List component="nav" disablePadding dense>
-                {
-                  Array.isArray(values.visibleTodo) && values.visibleTodo.map((t) => (
-                    <div key={t.id}>
-                      <ListItem>
-                        <input
-                          type="text"
-                          value={t.name}
-                          className={classes.cardInput}
-                          onChange={(e) => changeVisibleTodo(t.id, e.target.value)}
-                          onBlur={(e) => todo.updateTodo(t)}
-                        />
-                        {mode.current == 'delete' ? 
-                          (
-                            <ListItemSecondaryAction onClick={() => todo.deleteTodo(t)}>
-                              <IconButton edge="end" aria-label="comments">
-                                <DeleteForever color={'error'}/>
-                              </IconButton>
-                            </ListItemSecondaryAction>
-                          ) : 
-                          (
-                            <ListItemSecondaryAction onClick={() => showTodoList(t)}>
-                              <IconButton edge="end" aria-label="comments">
-                                <InboxIcon/>
-                              </IconButton>
-                            </ListItemSecondaryAction>
-                          )
-                        }
-                      </ListItem>
-                      {values.visibleTodo.slice(-1)[0] != t && <Divider />}
-                    </div>
-                  ))
-                }
-              </List>
+              <RootTodoList
+                todos={todo.current}
+                onClick={(t) => showTodoList(t)}
+                onBlur={(t) => todo.updateTodo(t)}
+                changeTodo={(id, value) => changeVisibleTodo(id, value)}
+                mode={mode.current}
+              />
             </CardContent>
           </Card>
         </>
@@ -193,6 +159,7 @@ export default function Index() {
         handleClose={() => mode.changeMode('normal')}
         body={<SimpleForm placeholder={"リストを作成する"} handlePost={(post) => {todo.createTodo(post); mode.changeMode('normal')}}/>}
       />
+      <ModeLabel/>
     </div>
   );
 }
