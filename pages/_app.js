@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import SnackbarContext from '../data/snack';
 import NavigationContext from '../data/navigation';
 import ModeContext from '../data/mode';
+import TodoContext from '../data/todo';
 import Layout from "../components/Layout";
 
 function MyApp({ Component, pageProps }) {
@@ -9,9 +10,11 @@ function MyApp({ Component, pageProps }) {
     <SnackbarContext>
       <NavigationContext>
         <ModeContext>
-          <Layout title="todo sns">
-            <Component {...pageProps} />
-          </Layout>
+          <TodoContext>
+            <Layout title="todo sns">
+              <Component {...pageProps} />
+            </Layout>
+          </TodoContext>
         </ModeContext>
       </NavigationContext>
     </SnackbarContext>

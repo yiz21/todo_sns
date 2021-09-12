@@ -1,16 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
-import CreateIcon from '@material-ui/icons/Create';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
+import FlipCameraAndroidIcon from '@material-ui/icons/FlipCameraAndroid';
 
 const useStyles = makeStyles((theme) => ({
   fabutton: {
     '& > *': {
       margin: theme.spacing(1),
-      bottom: '2rem',
+      bottom: '57px',
       right: '10px',
       position: 'fixed',
       zIndex: 1360
@@ -26,24 +23,24 @@ export default function FaButton({mode, onClick}) {
       {
         mode == 'normal' &&
         (
-          <Fab color="primary" aria-label="add" onClick={() => onClick('edit')}>
-            <EditIcon />
+          <Fab size="small" color="primary" aria-label="add" onClick={() => onClick('edit')}>
+            <FlipCameraAndroidIcon />
           </Fab>
         )
       }
       {
         mode == 'edit' &&
         (
-          <Fab color="primary" aria-label="add" onClick={() => onClick('delete')}>
-            <DeleteIcon />
+          <Fab size="small" color="primary" aria-label="add" onClick={() => onClick('delete')}>
+            <FlipCameraAndroidIcon />
           </Fab>
         )
       }
       {
         mode == 'delete' &&
         (
-          <Fab color="primary" aria-label="add" onClick={() => onClick('normal')}>
-            <AssignmentTurnedInIcon />
+          <Fab size="small" color="primary" aria-label="add" onClick={() => onClick('normal')}>
+            <FlipCameraAndroidIcon />
           </Fab>
         )
       }
