@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import ShowTodoList from '../../components/ShowTodoList'
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper'
-import FaButton from '../../components/FaButton'
+import ModeButton from '../../components/ModeButton'
 import SimpleModal from '../../components/SimpleModal'
 import { updateTodo, deleteTodo, postTodo } from '../../requests/api';
 import TitleDescriptionForm from '../../components/TitleDescriptionForm';
