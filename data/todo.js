@@ -7,9 +7,9 @@ export const Todo = createContext({
   current: [],
   loading: false,
   reinitialize: () => {},
-  updateTodo: (todo) => {},
-  deleteTodo: (id) => {},
-  createTodo: (todo) => {}
+  updateTodo: () => {},
+  deleteTodo: () => {},
+  createTodo: () => {}
 });
 
 const TodoContext = ({ children }) => {
