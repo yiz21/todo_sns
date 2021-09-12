@@ -102,7 +102,7 @@ export default function ShowTodo() {
           />
         }
       </Paper>
-      <FaButton onClick={() => setCreateMode(true)}/>
+      <ModeButton onClick={() => setCreateMode(true)}/>
       <SimpleModal
         open={mode.createMode}
         handleClose={() => setCreateMode(false)}
