@@ -74,7 +74,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Index() {
-  console.log('aaa');
   const nav = useContext(Navigation);
   const mode = useContext(Mode);
   const todo = useContext(Todo);

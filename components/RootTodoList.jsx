@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, doneTodo, deleteTodo, mode }) {
+  const [selected, setSelected] = useState({});
   const classes = useStyles();
 
   return (
@@ -39,8 +40,8 @@ export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, done
                 key={t.id}
                 dense
                 button
-                onClick={() => {onClick(t); doneTodo(t);}}
-                selected={t.is_done}
+                onClick={() => {onClick(t); setSelected(t);}}
+                selected={t == selected}
               >
                 <Checkbox
                   edge="start"
@@ -63,8 +64,8 @@ export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, done
                 key={t.id}
                 dense
                 button
-                selected={t.is_done}
-                onClick={() => doneTodo(t)}
+                selected={t == selected}
+                onClick={() => setSelected(t)}
               >
                 <input
                   type="text"
@@ -81,8 +82,8 @@ export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, done
                 key={t.id}
                 dense
                 button
-                selected={t.is_done}
-                onClick={() => doneTodo(t)}
+                selected={t == selected}
+                onClick={() => setSelected(t)}
               >
                 <ListItemText id={labelId} primary={t.name} />
                 <ListItemSecondaryAction onClick={() => deleteTodo(t)}>
