@@ -74,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Index() {
+  console.log('aaa');
   const nav = useContext(Navigation);
   const mode = useContext(Mode);
   const todo = useContext(Todo);
@@ -146,6 +147,8 @@ export default function Index() {
                 onClick={(t) => showTodoList(t)}
                 onBlur={(t) => todo.updateTodo(t)}
                 changeTodo={(id, value) => changeVisibleTodo(id, value)}
+                doneTodo={(t) => todo.doneTodo(t)}
+                deleteTodo={(t) => todo.deleteTodo(t)}
                 mode={mode.current}
               />
             </CardContent>

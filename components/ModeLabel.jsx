@@ -19,7 +19,7 @@ export default function ModeLabel() {
 
   return (
     <div className={classes.modeLabel}>
-      <Typography variant="h10">
+      <Typography variant="h6">
         {mode.current == 'normal' && '閲覧モード'}
         {mode.current == 'create' && '作成モード'}
         {mode.current == 'edit' && '編集モード'}

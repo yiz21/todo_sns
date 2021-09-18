@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext } from 'react'
 import useSWR from "swr";
-import { getTodos, postTodo, updateTodo, deleteTodo } from '../requests/api'
+import { getTodos, postTodo, updateTodo, deleteTodo, doneTodo } from '../requests/api'
 import { Snack } from '../data/snack';
 
 export const Todo = createContext({
@@ -18,9 +18,9 @@ const TodoContext = ({ children }) => {
   const snack = useContext(Snack);
 
   const _createTodo = async (todo) => {
-    const updateTodos = data;
-    updateTodos.push(todo);
-    mutate(updateTodos, false);
+    const _todos = data;
+    _todos.push(todo);
+    mutate(_todos, false);
 
     try {
       await postTodo({ todo });
@@ -31,15 +31,15 @@ const TodoContext = ({ children }) => {
   }
 
   const _updateTodo = async (todo) => {
-    let updateTodos = data;
-    updateTodos = updateTodos.map(t => {
+    let _todos = data;
+    _todos = _todos.map(t => {
       if (t.id == todo.id) {
         t = todo;
         return t;
       }
       return t;
     });
-    mutate(updateTodos, false);
+    mutate(_todos, false);
 
     try {
       await updateTodo({ id: todo.id, todo });
@@ -50,11 +50,30 @@ const TodoContext = ({ children }) => {
   }
 
   const _deleteTodo = async (todo) => {
-    const updateTodos = data.filter(t => t.id != todo.id);
-    mutate(updateTodos, false);
+    const _todos = data.filter(t => t.id != todo.id);
+    mutate(_todos, false);
 
     try {
       await deleteTodo(todo.id);
+      mutate();
+    } catch (error) {
+      snack.snackOn({ kind: 'error', message: '通信でエラーが発生しました' });
+    }
+  }
+
+  const _doneTodo = async (todo) => {
+    console.log(todo);
+    let _todos = data;
+    _todos = _todos.map(t => {
+      if (t.id == todo.id) {
+        t.is_done = !t.is_done;
+      }
+      return t;
+    });
+    mutate(_todos, false);
+
+    try {
+      await doneTodo(todo.id);
       mutate();
     } catch (error) {
       snack.snackOn({ kind: 'error', message: '通信でエラーが発生しました' });
@@ -69,7 +88,8 @@ const TodoContext = ({ children }) => {
         reinitialize: () => mutate(),
         createTodo: (todo) => _createTodo(todo),
         updateTodo: (todo) => _updateTodo(todo),
-        deleteTodo: (todo) => _deleteTodo(todo)
+        deleteTodo: (todo) => _deleteTodo(todo),
+        doneTodo: (todo) => _doneTodo(todo)
       }}
     >
       {children}

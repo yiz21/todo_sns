@@ -23,23 +23,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, mode }) {
-  const [selected, setSelected] = useState({});
-  const [checked, setChecked] = useState([0]);
+export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, doneTodo, deleteTodo, mode }) {
   const classes = useStyles();
-
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
 
   return (
     <List component="nav" disablePadding dense>
@@ -54,18 +39,18 @@ export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, mode
                 key={t.id}
                 dense
                 button
-                onClick={() => {onClick(t); setSelected(t);}}
-                selected={t == selected}
+                onClick={() => {onClick(t); doneTodo(t);}}
+                selected={t.is_done}
               >
                 <Checkbox
                   edge="start"
-                  checked={checked.indexOf(t.id) !== -1}
+                  checked={t.is_done}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
                 <ListItemText id={labelId} primary={t.name} />
-                <ListItemSecondaryAction onClick={handleToggle(t.id)}>
+                <ListItemSecondaryAction onClick={() => doneTodo(t)}>
                   <IconButton edge="end" aria-label="comments">
                     <PlaylistAddCheck />
                   </IconButton>
@@ -78,8 +63,8 @@ export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, mode
                 key={t.id}
                 dense
                 button
-                selected={t == selected}
-                onClick={() => setSelected(t)}
+                selected={t.is_done}
+                onClick={() => doneTodo(t)}
               >
                 <input
                   type="text"
@@ -96,11 +81,11 @@ export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, mode
                 key={t.id}
                 dense
                 button
-                selected={t == selected}
-                onClick={() => setSelected(t)}
+                selected={t.is_done}
+                onClick={() => doneTodo(t)}
               >
                 <ListItemText id={labelId} primary={t.name} />
-                <ListItemSecondaryAction onClick={() => todo.deleteTodo(t)}>
+                <ListItemSecondaryAction onClick={() => deleteTodo(t)}>
                   <IconButton edge="end" aria-label="comments">
                     <DeleteForever color={'error'}/>
                   </IconButton>

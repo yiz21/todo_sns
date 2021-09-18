@@ -107,3 +107,12 @@ export const postTodo = async (todo) => {
     throw error;
   }
 };
+
+export const doneTodo = async (id) => {
+  try {
+    const res = await Axios.post(`/api/v1/todos/${id}/done`);
+    return res
+  } catch (error) {
+    throw error;
+  }
+};
