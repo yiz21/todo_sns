@@ -34,7 +34,7 @@ export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, done
   return (
     <List component="nav" disablePadding dense>
     {
-      todos.map((t) => {
+      todos && todos.map((t) => {
         const labelId = `checkbox-list-label-${t.id}`;
          return (
             <div key={t.id}>

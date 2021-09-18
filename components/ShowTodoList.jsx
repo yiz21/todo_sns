@@ -7,7 +7,6 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
-import { useRouter } from 'next/router';
 import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function  ShowTodoList({ todo, showDescription, selected }) {
   const classes = useStyles();
-  const router = useRouter();
   const [checked, setChecked] = React.useState([0]);
 
   const handleToggle = (value) => () => {

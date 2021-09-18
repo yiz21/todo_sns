@@ -1,16 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useTodo } from '../../data/useTodo'
+import { Mode } from '../../data/mode';
+import { Todo } from '../../data/todo';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { useRouter } from 'next/router';
-import ShowTodoList from '../../components/ShowTodoList'
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper'
 import ModeButton from '../../components/ModeButton'
 import SimpleModal from '../../components/SimpleModal'
-import { updateTodo, deleteTodo, postTodo } from '../../requests/api';
 import TitleDescriptionForm from '../../components/TitleDescriptionForm';
+import RootTodoList from '../../components/RootTodoList'
+import CreateButton from '../../components/CreateButton'
+import ModeLabel from '../../components/ModeLabel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,57 +57,66 @@ const useStyles = makeStyles((theme) => ({
 export default function ShowTodo() {
   const classes = useStyles();
   const router = useRouter();
-  const { id } = router.query
-  const { todo, loading, error, mutate } = useTodo(id);
-  const [data, setData] = useState({});
-  const [mode, setMode] = useState({ createMode: false });
-  const [selectedTodo, setSelectedTodo] = useState({});
+  const { id } = router.query;
+  const todo = useContext(Todo);
+  const mode = useContext(Mode);
+  const targets = todo.current?.filter(t => t.id == id);
+  const _todo = targets && targets[0]
+  const [data, setData] = useState({ visibleTodo: [],selectedTodo: {}, update: false });
 
   useEffect(() => {
-    setData(todo);
-    if(todo && todo.todos) {
-      setSelectedTodo(todo.todos[0])
+    if(_todo && _todo.todos) {
+      setData({ ...data, visibleTodo: _todo.todos, selectedTodo: _todo.todos[0] });
     }
   }, [todo]);
 
-  const setCreateMode = (state) => {
-    setMode({ ...data, createMode: state });
-  };
+  const changeVisibleTodo = (id, value) => {
+    console.log(id);
+    console.log(value);
 
-  const createTodo = async (todo) => {
-    try {
-      const res = await postTodo({todo: {...todo, todo_id: id} });
-    } catch (error) {
-      snack.snackOn({ kind: 'error', message: '更新でエラーが発生しました' });
-    }
+    let updateTodos = data.visibleTodo;
+    updateTodos = updateTodos.map(t => {
+      if (t.id == id) {
+        t.name = value
+        return t;
+      }
+      return t;
+    });
+    console.log(updateTodos);
+    setData({ ...data, ['visibleTodo']: updateTodos });
   }
-
 
   return (
     <>
       <Typography variant="h6" className={classes.title}>
-        {todo && todo.name + 'のリスト'}
+        {_todo && _todo.name + 'のリスト'}
       </Typography>
       <Card className={classes.descriptionCard} variant="outlined">
         <CardContent className={classes.cardContent}>
-          {selectedTodo && selectedTodo.description}
+          {data.selectedTodo && data.selectedTodo.description}
         </CardContent>
       </Card>
       <Paper className={classes.paper}>
-        { todo && 
-          <ShowTodoList 
-            todo={todo} 
-            showDescription={(childTodo) => setSelectedTodo(childTodo)}
-            selected={selectedTodo}
+        { data.visibleTodo && 
+          <RootTodoList
+            todos={data.visibleTodo}
+            onClick={(t) => setData({ ...data, ['selectedTodo']: t })}
+            changeTodo={(id, value) => changeVisibleTodo(id, value)}
+            doneTodo={(t) => {todo.doneTodo(t); setData({ ...data, ['update']: !data.update });}}
+            deleteTodo={(t) => todo.deleteTodo(t)}
+            onBlur={(t) => todo.updateTodo(t)}
+            mode={mode.current}
           />
         }
       </Paper>
-      <ModeButton onClick={() => setCreateMode(true)}/>
+      <CreateButton onClick={(m) => mode.changeMode(m)} mode={mode.current}/>
+      <ModeButton onClick={(m) => mode.changeMode(m)} mode={mode.current}/>
       <SimpleModal
-        open={mode.createMode}
-        handleClose={() => setCreateMode(false)}
-        body={<TitleDescriptionForm handlePost={(post) => {createTodo(post); setCreateMode(false); mutate();}}/>}
+        open={mode.current == 'create'}
+        handleClose={() => mode.changeMode('normal')}
+        body={<TitleDescriptionForm handlePost={(post) => {todo.createTodo({...post, todo_id: id}); mode.changeMode('normal')}}/>}
       />
+      <ModeLabel/>
     </>
   );
 }
