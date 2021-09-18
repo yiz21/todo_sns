@@ -61,7 +61,6 @@ const Signup = ({ pushSignIn }) => {
     try {
       const res = await signUp({ email: email, password: password });
     } catch (error) {
-      console.log('ghjk');
       snack.snackOn({ kind: 'error', message: 'アカウント登録でエラーが発生しました' });
       return;
     }

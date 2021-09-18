@@ -62,7 +62,6 @@ const TodoContext = ({ children }) => {
   }
 
   const _doneTodo = async (todo) => {
-    console.log(todo);
     let _todos = data;
     _todos = _todos.map(t => {
       if (t.id == todo.id) {

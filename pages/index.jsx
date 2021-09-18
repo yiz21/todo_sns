@@ -106,6 +106,22 @@ export default function Index() {
     setValues({ ...values, ['visibleTodo']: updateTodos });
   }
 
+  const doneTodo = (_todo) => {
+    let updateTodos = values["visibleTodo"];
+    updateTodos = updateTodos.map(t => {
+      if (t.id == _todo.id) {
+        t.is_done = !t.is_done
+      }
+      return t;
+    });
+    setValues({ ...values, ['visibleTodo']: updateTodos });
+    try {
+      todo.doneTodo(_todo);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const showTodoList = async (t) => {
     try {
       todo.updateTodo(t);
@@ -146,7 +162,7 @@ export default function Index() {
                 onClick={(t) => showTodoList(t)}
                 onBlur={(t) => todo.updateTodo(t)}
                 changeTodo={(id, value) => changeVisibleTodo(id, value)}
-                doneTodo={(t) => todo.doneTodo(t)}
+                doneTodo={(t) => doneTodo(t)}
                 deleteTodo={(t) => todo.deleteTodo(t)}
                 mode={mode.current}
               />
