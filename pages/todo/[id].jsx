@@ -19,8 +19,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   descriptionCard: {
-    // marginTop: '1rem',
-    // marginBottom: '2rem',
     marginRight: '1rem',
     marginLeft: '1.3rem',
     position: 'relative',

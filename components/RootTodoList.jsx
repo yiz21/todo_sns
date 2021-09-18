@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItem from '@mui/material/ListItem';
 import IconButton from '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider';
 import DeleteForever from '@material-ui/icons/DeleteForever';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemText from '@material-ui/core/ListItemText';
-import PlaylistAddCheck from '@material-ui/icons/PlaylistAddCheck';
+import Checkbox from '@mui/material/Checkbox';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton';
 
 const useStyles = makeStyles((theme) => ({
   cardInput: {
@@ -20,6 +18,12 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '0.5rem',
     paddingBottom: '0.5rem',
     fontSize: '1rem'
+  },
+  checkBox: {
+    padding: 0,
+  },
+  listItem: {
+    height: '48px'
   }
 }));
 
@@ -38,76 +42,78 @@ export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, done
               mode == 'normal' &&
               <ListItem
                 key={t.id}
-                dense
-                button
-                onClick={() => {onClick(t); setSelected(t);}}
                 selected={t == selected}
+                disablePadding
+                secondaryAction={
+                  <Checkbox
+                    edge="end"
+                    checked={t.is_done}
+                    tabIndex={-1}
+                    inputProps={{ 'aria-labelledby': labelId }}
+                    onClick={() => doneTodo(t)}
+                  />
+                }
               >
-                <Checkbox
-                  edge="start"
-                  checked={t.is_done}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ 'aria-labelledby': labelId }}
-                />
-                <ListItemText id={labelId} primary={t.name} />
-                <ListItemSecondaryAction onClick={() => doneTodo(t)}>
-                  <IconButton edge="end" aria-label="comments">
-                    <PlaylistAddCheck />
-                  </IconButton>
-                </ListItemSecondaryAction>
+                <ListItemButton
+                  className={classes.checkBox}
+                  onClick={() => {onClick(t); setSelected(t);}}
+                  divider={todos.slice(-1)[0] != t}
+                >
+                  <ListItemText id={labelId} primary={t.name} />
+                </ListItemButton>
               </ListItem>
             }
             {
               mode == 'edit' &&
               <ListItem
                 key={t.id}
-                dense
-                button
                 selected={t == selected}
                 onClick={() => setSelected(t)}
+                disablePadding
+                secondaryAction={
+                  <Checkbox
+                    edge="end"
+                    checked={t.is_done}
+                    tabIndex={-1}
+                    inputProps={{ 'aria-labelledby': labelId }}
+                    onClick={() => doneTodo(t)}
+                  />
+                }
               >
-                <Checkbox
-                  edge="start"
-                  checked={t.is_done}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ 'aria-labelledby': labelId }}
-                />
-                <input
-                  type="text"
-                  value={t.name}
-                  className={classes.cardInput}
-                  onChange={(e) => changeTodo(t.id, e.target.value)}
-                  onBlur={() => onBlur(t)}
-                />
+                <ListItemButton
+                  className={classes.checkBox}
+                  divider={todos.slice(-1)[0] != t}
+                >
+                  <input
+                    type="text"
+                    value={t.name}
+                    className={classes.cardInput}
+                    onChange={(e) => changeTodo(t.id, e.target.value)}
+                    onBlur={() => onBlur(t)}
+                  />
+                </ListItemButton>
               </ListItem>
             }
             {
               mode == 'delete' && 
               <ListItem
-                key={t.id}
-                dense
-                button
                 selected={t == selected}
                 onClick={() => setSelected(t)}
-              >
-                <Checkbox
-                  edge="start"
-                  checked={t.is_done}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ 'aria-labelledby': labelId }}
-                />
-                <ListItemText id={labelId} primary={t.name} />
-                <ListItemSecondaryAction onClick={() => deleteTodo(t)}>
-                  <IconButton edge="end" aria-label="comments">
+                disablePadding
+                secondaryAction={
+                  <IconButton edge="end" aria-label="comments" onClick={() => deleteTodo(t)}>
                     <DeleteForever color={'error'}/>
                   </IconButton>
-                </ListItemSecondaryAction>
+                }
+              >
+                <ListItemButton
+                  className={classes.checkBox}
+                  divider={todos.slice(-1)[0] != t}
+                >
+                  <ListItemText id={labelId} primary={t.name} />
+                </ListItemButton>
               </ListItem>
             }
-            {todos.slice(-1)[0] != t && <Divider />}
           </div>
          ) 
       })
