@@ -79,7 +79,7 @@ export default function Index() {
   const todo = useContext(Todo);
   const router = useRouter();
   const classes = useStyles();
-  const[values, setValues] = useState({visibleTodo: []});
+  const[values, setValues] = useState({visibleTodo: [], update: false});
 
   useEffect(() => {
     nav.changeNav(0);
@@ -88,7 +88,7 @@ export default function Index() {
     }else{
       setValues({ ...values, ['visibleTodo']: todo.current });
     }
-  }, [todo?.current, values.searchWord]);
+  }, [todo, values.searchWord]);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -104,22 +104,6 @@ export default function Index() {
       return t;
     });
     setValues({ ...values, ['visibleTodo']: updateTodos });
-  }
-
-  const doneTodo = (_todo) => {
-    let updateTodos = values["visibleTodo"];
-    updateTodos = updateTodos.map(t => {
-      if (t.id == _todo.id) {
-        t.is_done = !t.is_done
-      }
-      return t;
-    });
-    setValues({ ...values, ['visibleTodo']: updateTodos });
-    try {
-      todo.doneTodo(_todo);
-    } catch (error) {
-      console.log(error)
-    }
   }
 
   const showTodoList = async (t) => {
@@ -162,7 +146,7 @@ export default function Index() {
                 onClick={(t) => showTodoList(t)}
                 onBlur={(t) => todo.updateTodo(t)}
                 changeTodo={(id, value) => changeVisibleTodo(id, value)}
-                doneTodo={(t) => doneTodo(t)}
+                doneTodo={(t) => {todo.doneTodo(t); setValues({ ...values, ['update']: !values.update });}}
                 deleteTodo={(t) => todo.deleteTodo(t)}
                 mode={mode.current}
               />

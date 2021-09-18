@@ -67,6 +67,13 @@ export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, done
                 selected={t == selected}
                 onClick={() => setSelected(t)}
               >
+                <Checkbox
+                  edge="start"
+                  checked={t.is_done}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': labelId }}
+                />
                 <input
                   type="text"
                   value={t.name}
@@ -85,6 +92,13 @@ export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, done
                 selected={t == selected}
                 onClick={() => setSelected(t)}
               >
+                <Checkbox
+                  edge="start"
+                  checked={t.is_done}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': labelId }}
+                />
                 <ListItemText id={labelId} primary={t.name} />
                 <ListItemSecondaryAction onClick={() => deleteTodo(t)}>
                   <IconButton edge="end" aria-label="comments">

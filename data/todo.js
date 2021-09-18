@@ -70,7 +70,6 @@ const TodoContext = ({ children }) => {
       return t;
     });
     mutate(_todos, false);
-
     try {
       await doneTodo(todo.id);
       mutate();
