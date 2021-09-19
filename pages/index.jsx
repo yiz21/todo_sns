@@ -14,7 +14,7 @@ import ModeButton from '../components/ModeButton'
 import CreateButton from '../components/CreateButton'
 import SimpleModal from '../components/SimpleModal'
 import SimpleForm from '../components/SimpleForm';
-import RootTodoList from '../components/RootTodoList';
+import TodoList from '../components/TodoList';
 import ModeLabel from '../components/ModeLabel';
 
 const useStyles = makeStyles((theme) => ({
@@ -141,7 +141,7 @@ export default function Index() {
           </div>
           <Card className={classes.todoListCard} variant="outlined">
             <CardContent className={classes.cardContent}>
-              <RootTodoList
+              <TodoList
                 todos={todo.current}
                 onClick={(t) => showTodoList(t)}
                 onBlur={(t) => todo.updateTodo(t)}

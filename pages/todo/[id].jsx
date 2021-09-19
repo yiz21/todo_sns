@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper'
 import ModeButton from '../../components/ModeButton'
 import SimpleModal from '../../components/SimpleModal'
 import TitleDescriptionForm from '../../components/TitleDescriptionForm';
-import RootTodoList from '../../components/RootTodoList'
+import TodoList from '../../components/TodoList'
 import CreateButton from '../../components/CreateButton'
 import ModeLabel from '../../components/ModeLabel';
 
@@ -98,7 +98,7 @@ export default function ShowTodo() {
       </Card>
       <Paper className={classes.paper}>
         { data.visibleTodo && 
-          <RootTodoList
+          <TodoList
             todos={data.visibleTodo}
             onClick={(t) => setData({ ...data, ['selectedTodo']: t })}
             changeTodo={(id, value) => changeVisibleTodo(id, value)}

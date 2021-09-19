@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function  RootTodoList({ todos, changeTodo, onClick, onBlur, doneTodo, deleteTodo, mode }) {
+export default function  TodoList({ todos, changeTodo, onClick, onBlur, doneTodo, deleteTodo, mode }) {
   const [selected, setSelected] = useState({});
   const classes = useStyles();
 
