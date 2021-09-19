@@ -79,7 +79,7 @@ export default function Index() {
   const todo = useContext(Todo);
   const router = useRouter();
   const classes = useStyles();
-  const[values, setValues] = useState({visibleTodo: [], update: false});
+  const[values, setValues] = useState({ visibleTodo: [], update: false });
 
   useEffect(() => {
     nav.changeNav(0);

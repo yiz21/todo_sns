@@ -15,15 +15,15 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
     color: 'white',
     width: '100%',
-    paddingTop: '0.5rem',
-    paddingBottom: '0.5rem',
+    marginTop: '0.5rem',
+    marginBottom: '0.5rem',
     fontSize: '1rem'
   },
   checkBox: {
     padding: 0,
   },
   listItem: {
-    height: '48px'
+    height: '3rem'
   }
 }));
 
@@ -44,6 +44,7 @@ export default function  TodoList({ todos, changeTodo, onClick, onBlur, doneTodo
                 key={t.id}
                 selected={t == selected}
                 disablePadding
+                className={classes.listItem}
                 secondaryAction={
                   <Checkbox
                     edge="end"
@@ -70,6 +71,7 @@ export default function  TodoList({ todos, changeTodo, onClick, onBlur, doneTodo
                 selected={t == selected}
                 onClick={() => setSelected(t)}
                 disablePadding
+                className={classes.listItem}
                 secondaryAction={
                   <Checkbox
                     edge="end"
@@ -100,6 +102,7 @@ export default function  TodoList({ todos, changeTodo, onClick, onBlur, doneTodo
                 selected={t == selected}
                 onClick={() => setSelected(t)}
                 disablePadding
+                className={classes.listItem}
                 secondaryAction={
                   <IconButton edge="end" aria-label="comments" onClick={() => deleteTodo(t)}>
                     <DeleteForever color={'error'}/>
