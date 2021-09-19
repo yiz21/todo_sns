@@ -71,9 +71,6 @@ export default function ShowTodo() {
   }, [todo]);
 
   const changeVisibleTodo = (id, value) => {
-    console.log(id);
-    console.log(value);
-
     let updateTodos = data.visibleTodo;
     updateTodos = updateTodos.map(t => {
       if (t.id == id) {
@@ -84,6 +81,18 @@ export default function ShowTodo() {
     });
     console.log(updateTodos);
     setData({ ...data, ['visibleTodo']: updateTodos });
+  }
+
+  const doneVisibleTodo = (target) => {
+    let updateTodos = data.visibleTodo;
+    updateTodos = updateTodos.map(t => {
+      if (t.id == target.id) {
+        t.is_done = !t.is_done
+      }
+      return t;
+    });
+    setData({ ...data, ['visibleTodo']: updateTodos });
+    todo.doneTodo(target);
   }
 
   return (
@@ -97,12 +106,12 @@ export default function ShowTodo() {
         </CardContent>
       </Card>
       <Paper className={classes.paper}>
-        { data.visibleTodo && 
+        { _todo && 
           <TodoList
-            todos={data.visibleTodo}
+            todos={_todo.todos}
             onClick={(t) => setData({ ...data, ['selectedTodo']: t })}
             changeTodo={(id, value) => changeVisibleTodo(id, value)}
-            doneTodo={(t) => {todo.doneTodo(t); setData({ ...data, ['update']: !data.update });}}
+            doneTodo={(t) => doneVisibleTodo(t)}
             deleteTodo={(t) => todo.deleteTodo(t)}
             onBlur={(t) => todo.updateTodo(t)}
             mode={mode.current}
