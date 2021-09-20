@@ -16,6 +16,7 @@ import SimpleModal from '../components/SimpleModal'
 import SimpleForm from '../components/SimpleForm';
 import TodoList from '../components/TodoList';
 import ModeLabel from '../components/ModeLabel';
+import useUser from '../data/useUser';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,8 +81,10 @@ export default function Index() {
   const router = useRouter();
   const classes = useStyles();
   const[values, setValues] = useState({ visibleTodo: [], update: false });
+  const { loading, loggedIn } = useUser();
 
   useEffect(() => {
+    if (!loading && !loggedIn) router.push('/User');
     nav.changeNav(0);
     if (todo.current && values.searchWord) {
       setValues({ ...values, ['visibleTodo']: todo.current.filter(todo => todo.name.indexOf(values.searchWord) != -1) });

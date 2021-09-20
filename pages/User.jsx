@@ -5,13 +5,16 @@ import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import { Navigation } from '../data/navigation';
 import BackDrop from '../components/BackDrop';
+import { Snack } from '../data/snack';
 
 const User = () => {
   const { loading, loggedIn, user } = useUser();
   const [signUp, setSignUp] = useState(false);
   const nav = useContext(Navigation);
+  const snack = useContext(Snack);
 
   useEffect(() => {
+    if (!loggedIn) snack.snackOn({ kind: 'error', message: 'ログインしてください' })
     nav.changeNav(2);
   }, []);
 

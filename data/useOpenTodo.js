@@ -3,10 +3,10 @@ import { getOpenTodos } from '../requests/api'
 
 export default function useOpenTodo() {
   const { data, error, mutate } = useSWR("get_open_todos", getOpenTodos);
-  const loading = !data && !error;
+  const openTodoLoading = !data && !error;
 
   return {
-    loading,
+    openTodoLoading,
     openTodos: data,
     mutate,
   };
