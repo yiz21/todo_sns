@@ -39,7 +39,7 @@ export default function  TodoList({ todos, changeTodo, onClick, onBlur, doneTodo
          return (
             <div key={t.id}>
             {
-              mode == 'normal' &&
+              (mode == 'normal' || mode == 'create') &&
               <ListItem
                 key={t.id}
                 selected={t == selected}
