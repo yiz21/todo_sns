@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginTop: '0.5rem',
     marginBottom: '0.5rem',
+    paddingLeft: 0,
     fontSize: '1rem'
   },
   checkBox: {
