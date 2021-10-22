@@ -151,6 +151,7 @@ export default function Index() {
                 changeTodo={(id, value) => changeVisibleTodo(id, value)}
                 doneTodo={(t) => {todo.doneTodo(t); setValues({ ...values, ['update']: !values.update });}}
                 deleteTodo={(t) => todo.deleteTodo(t)}
+                shareTodo={(t) => todo.shareTodo(t)}
                 mode={mode.current}
               />
             </CardContent>

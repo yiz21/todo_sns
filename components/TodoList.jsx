@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function  TodoList({ todos, changeTodo, onClick, onBlur, doneTodo, deleteTodo, mode }) {
+export default function  TodoList({ todos, changeTodo, onClick, onBlur, doneTodo, deleteTodo, shareTodo, mode }) {
   const [selected, setSelected] = useState({});
   const classes = useStyles();
 
@@ -61,6 +61,32 @@ export default function  TodoList({ todos, changeTodo, onClick, onBlur, doneTodo
                 <ListItemButton
                   className={classes.checkBox}
                   onClick={() => {onClick(t); setSelected(t);}}
+                  divider={todos.slice(-1)[0] != t}
+                >
+                  <ListItemText id={labelId} primary={t.name} />
+                </ListItemButton>
+              </ListItem>
+            }
+            {
+              (mode == 'share') &&
+              <ListItem
+                key={t.id}
+                selected={t == selected}
+                disablePadding
+                className={classes.listItem}
+                secondaryAction={
+                  <Checkbox
+                    edge="end"
+                    checked={t.is_done}
+                    tabIndex={-1}
+                    inputProps={{ 'aria-labelledby': labelId }}
+                    onClick={() => doneTodo(t)}
+                  />
+                }
+              >
+                <ListItemButton
+                  className={classes.checkBox}
+                  onClick={() => {shareTodo(t); setSelected(t);}}
                   divider={todos.slice(-1)[0] != t}
                 >
                   <ListItemText id={labelId} primary={t.name} />

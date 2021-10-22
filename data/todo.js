@@ -1,6 +1,13 @@
 import React, { useState, createContext, useContext } from 'react'
 import useSWR from "swr";
-import { getTodos, postTodo, updateTodo, deleteTodo, doneTodo } from '../requests/api'
+import { 
+  getTodos,
+  postTodo,
+  updateTodo,
+  deleteTodo,
+  doneTodo,
+  shareTodo
+} from '../requests/api'
 import { Snack } from '../data/snack';
 
 export const Todo = createContext({
@@ -62,16 +69,17 @@ const TodoContext = ({ children }) => {
   }
 
   const _doneTodo = async (todo) => {
-    let _todos = data;
-    _todos = _todos.map(t => {
-      if (t.id == todo.id) {
-        t.is_done = !t.is_done;
-      }
-      return t;
-    });
-    mutate(_todos, false);
     try {
       await doneTodo(todo.id);
+      mutate();
+    } catch (error) {
+      snack.snackOn({ kind: 'error', message: '通信でエラーが発生しました' });
+    }
+  }
+
+  const _shareTodo = async (todo) => {
+    try {
+      await shareTodo(todo.id);
       mutate();
     } catch (error) {
       snack.snackOn({ kind: 'error', message: '通信でエラーが発生しました' });
@@ -87,7 +95,8 @@ const TodoContext = ({ children }) => {
         createTodo: (todo) => _createTodo(todo),
         updateTodo: (todo) => _updateTodo(todo),
         deleteTodo: (todo) => _deleteTodo(todo),
-        doneTodo: (todo) => _doneTodo(todo)
+        doneTodo: (todo) => _doneTodo(todo),
+        shareTodo: (todo) => _shareTodo(todo)
       }}
     >
       {children}

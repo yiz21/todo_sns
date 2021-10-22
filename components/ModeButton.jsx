@@ -39,6 +39,14 @@ export default function FaButton({mode, onClick}) {
       {
         mode == 'delete' &&
         (
+          <Fab size="small" color="primary" aria-label="add" onClick={() => onClick('share')}>
+            <FlipCameraAndroidIcon />
+          </Fab>
+        )
+      }
+      {
+        mode == 'share' &&
+        (
           <Fab size="small" color="primary" aria-label="add" onClick={() => onClick('normal')}>
             <FlipCameraAndroidIcon />
           </Fab>
