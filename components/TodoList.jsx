@@ -7,6 +7,7 @@ import DeleteForever from '@material-ui/icons/DeleteForever';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
+import ListMenu from '../components/ListMenu';
 
 const useStyles = makeStyles((theme) => ({
   cardInput: {
@@ -49,44 +50,15 @@ export default function  TodoList({ todos, changeTodo, onClick, onBlur, doneTodo
                 disablePadding
                 className={classes.listItem}
                 secondaryAction={
-                  <Checkbox
-                    edge="end"
-                    checked={t.is_done}
-                    tabIndex={-1}
-                    inputProps={{ 'aria-labelledby': labelId }}
-                    onClick={() => doneTodo(t)}
+                  <ListMenu
+                    handleDelete={() => {deleteTodo(t)}}
+                    handleShare={() => {shareTodo(t)}}
                   />
                 }
               >
                 <ListItemButton
                   className={classes.checkBox}
                   onClick={() => {onClick(t); setSelected(t);}}
-                  divider={todos.slice(-1)[0] != t}
-                >
-                  <ListItemText id={labelId} primary={t.name} />
-                </ListItemButton>
-              </ListItem>
-            }
-            {
-              (mode == 'share') &&
-              <ListItem
-                key={t.id}
-                selected={t == selected}
-                disablePadding
-                className={classes.listItem}
-                secondaryAction={
-                  <Checkbox
-                    edge="end"
-                    checked={t.is_done}
-                    tabIndex={-1}
-                    inputProps={{ 'aria-labelledby': labelId }}
-                    onClick={() => doneTodo(t)}
-                  />
-                }
-              >
-                <ListItemButton
-                  className={classes.checkBox}
-                  onClick={() => {shareTodo(t); setSelected(t);}}
                   divider={todos.slice(-1)[0] != t}
                 >
                   <ListItemText id={labelId} primary={t.name} />
@@ -122,27 +94,6 @@ export default function  TodoList({ todos, changeTodo, onClick, onBlur, doneTodo
                     onChange={(e) => changeTodo(t.id, e.target.value)}
                     onBlur={() => onBlur(t)}
                   />
-                </ListItemButton>
-              </ListItem>
-            }
-            {
-              mode == 'delete' && 
-              <ListItem
-                selected={t == selected}
-                onClick={() => setSelected(t)}
-                disablePadding
-                className={classes.listItem}
-                secondaryAction={
-                  <IconButton edge="end" aria-label="comments" onClick={() => deleteTodo(t)}>
-                    <DeleteForever color={'error'}/>
-                  </IconButton>
-                }
-              >
-                <ListItemButton
-                  className={classes.checkBox}
-                  divider={todos.slice(-1)[0] != t}
-                >
-                  <ListItemText id={labelId} primary={t.name} />
                 </ListItemButton>
               </ListItem>
             }

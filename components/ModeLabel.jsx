@@ -23,8 +23,6 @@ export default function ModeLabel() {
         {mode.current == 'normal' && '閲覧モード'}
         {mode.current == 'create' && '作成モード'}
         {mode.current == 'edit' && '編集モード'}
-        {mode.current == 'delete' && '削除モード'}
-        {mode.current == 'share' && '共有モード'}
       </Typography>
     </div>
   );
