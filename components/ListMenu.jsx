@@ -5,8 +5,8 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const options = [
-  '削除',
   '公開',
+  '削除',
 ];
 
 const ITEM_HEIGHT = 48;
@@ -23,11 +23,11 @@ export default function ListMenu({handleDelete, handleShare}) {
 
   const handleMenu = (option) => {
     switch(option){
-      case '削除':
-        handleDelete();
-        break;
       case '公開':
         handleShare();
+        break;
+      case '削除':
+        handleDelete();
         break;
       default:
         break;
