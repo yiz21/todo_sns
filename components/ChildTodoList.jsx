@@ -5,6 +5,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListMenu from '../components/ListMenu';
+import Checkbox from '@mui/material/Checkbox';
 
 const useStyles = makeStyles((theme) => ({
   cardInput: {
@@ -47,10 +48,15 @@ export default function  TodoList({ todos, changeTodo, onClick, onBlur, doneTodo
                 disablePadding
                 className={classes.listItem}
                 secondaryAction={
-                  <ListMenu
-                    handleDelete={() => {deleteTodo(t)}}
-                    handleShare={() => {shareTodo(t)}}
-                  />
+                  <>
+                    <Checkbox
+                      edge="end"
+                      checked={t.is_done}
+                      tabIndex={-1}
+                      inputProps={{ 'aria-labelledby': labelId }}
+                      onClick={() => doneTodo(t)}
+                    />                  
+                  </>
                 }
               >
                 <ListItemButton

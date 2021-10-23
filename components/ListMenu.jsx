@@ -32,6 +32,7 @@ export default function ListMenu({handleDelete, handleShare}) {
       default:
         break;
     }
+    handleClose();
   }
 
   return (
