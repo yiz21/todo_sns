@@ -31,7 +31,7 @@ export default function FaButton({mode, onClick}) {
       {
         mode == 'edit' &&
         (
-          <Fab size="small" color="primary" aria-label="add" onClick={() => onClick('delete')}>
+          <Fab size="small" color="primary" aria-label="add" onClick={() => onClick('normal')}>
             <FlipCameraAndroidIcon />
           </Fab>
         )
