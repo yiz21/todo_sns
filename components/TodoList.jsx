@@ -73,15 +73,6 @@ export default function  TodoList({ todos, changeTodo, onClick, onBlur, doneTodo
                 onClick={() => setSelected(t)}
                 disablePadding
                 className={classes.listItem}
-                secondaryAction={
-                  <Checkbox
-                    edge="end"
-                    checked={t.is_done}
-                    tabIndex={-1}
-                    inputProps={{ 'aria-labelledby': labelId }}
-                    onClick={() => doneTodo(t)}
-                  />
-                }
               >
                 <ListItemButton
                   className={classes.checkBox}
