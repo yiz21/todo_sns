@@ -15,6 +15,7 @@ export const Todo = createContext({
   loading: false,
   reinitialize: () => {},
   updateTodo: () => {},
+  updateLocalTodo: () => {},
   deleteTodo: () => {},
   createTodo: () => {}
 });
@@ -56,6 +57,18 @@ const TodoContext = ({ children }) => {
     }
   }
 
+  const _updateLocalTodo = async (todo) => {
+    let _todos = data;
+    _todos = _todos.map(t => {
+      if (t.id == todo.id) {
+        t = todo;
+        return t;
+      }
+      return t;
+    });
+    mutate(_todos, false);
+  }
+
   const _deleteTodo = async (todo) => {
     const _todos = data.filter(t => t.id != todo.id);
     mutate(_todos, false);
@@ -94,6 +107,7 @@ const TodoContext = ({ children }) => {
         reinitialize: () => mutate(),
         createTodo: (todo) => _createTodo(todo),
         updateTodo: (todo) => _updateTodo(todo),
+        updateLocalTodo: (todo) => _updateLocalTodo(todo),
         deleteTodo: (todo) => _deleteTodo(todo),
         doneTodo: (todo) => _doneTodo(todo),
         shareTodo: (todo) => _shareTodo(todo)

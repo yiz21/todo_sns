@@ -99,7 +99,7 @@ export default function  TodoList() {
                     type="text"
                     value={t.name}
                     className={classes.cardInput}
-                    onChange={(e) => todo.updateTodo({...t, name: e.target.value})}
+                    onChange={(e) => todo.updateLocalTodo({...t, name: e.target.value})}
                     onBlur={() => todo.updateTodo(t)}
                   />
                 </ListItemButton>
