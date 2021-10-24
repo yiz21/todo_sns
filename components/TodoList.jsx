@@ -57,7 +57,6 @@ export default function  TodoList() {
     {!todo.loading && (
       todo.current.map((t) => {
         const labelId = `checkbox-list-label-${t.id}`;
-        console.log(mode);
         return (
           <div key={t.id}>
             {

@@ -79,7 +79,6 @@ export default function ShowTodo() {
       }
       return t;
     });
-    console.log(updateTodos);
     setData({ ...data, ['visibleTodo']: updateTodos });
   }
 

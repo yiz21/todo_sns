@@ -77,7 +77,12 @@ export default function Index() {
       <SimpleModal
         open={mode.current == 'create'}
         handleClose={() => mode.changeMode('normal')}
-        body={<SimpleForm placeholder={"リストを作成する"} handlePost={(post) => {todo.createTodo(post); mode.changeMode('normal')}}/>}
+        body={
+          <SimpleForm
+            placeholder={"リストを作成する"}
+            handlePost={(post) => {todo.createTodo(post); mode.changeMode('normal')}}
+          />
+        }
       />
       <ModeLabel/>
     </div>
