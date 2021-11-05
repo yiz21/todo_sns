@@ -14,6 +14,7 @@ import SimpleForm from '../components/SimpleForm';
 import TodoList from '../components/TodoList';
 import ModeLabel from '../components/ModeLabel';
 import useUser from '../data/useUser';
+import { useRouter } from 'next/router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +51,7 @@ export default function Index() {
   const mode = useContext(Mode);
   const todo = useContext(Todo);
   const classes = useStyles();
+  const router = useRouter();
   const { loading, loggedIn } = useUser();
 
   useEffect(() => {
@@ -59,32 +61,34 @@ export default function Index() {
 
   return (
     <div className={classes.root}>
-      {todo.loading && <BackDrop enable={todo.loading}/>}
-      <>
-        <div className={classes.title}>
-          <Typography variant="h6" >
-              マイリスト
-          </Typography>
-        </div>
-        <Card className={classes.todoListCard} variant="outlined">
-          <CardContent className={classes.cardContent}>
-            <TodoList/>
-          </CardContent>
-        </Card>
-      </>
-      <CreateButton onClick={(m) => mode.changeMode(m)} mode={mode.current}/>
-      <ModeButton onClick={(m) => mode.changeMode(m)} mode={mode.current}/>
-      <SimpleModal
-        open={mode.current == 'create'}
-        handleClose={() => mode.changeMode('normal')}
-        body={
-          <SimpleForm
-            placeholder={"リストを作成する"}
-            handlePost={(post) => {todo.createTodo(post); mode.changeMode('normal')}}
+      {loading && <BackDrop enable={todo.loading}/>}
+      {!loading && loggedIn &&
+        <>
+          <div className={classes.title}>
+            <Typography variant="h6" >
+                マイリスト
+            </Typography>
+          </div>
+          <Card className={classes.todoListCard} variant="outlined">
+            <CardContent className={classes.cardContent}>
+              <TodoList/>
+            </CardContent>
+          </Card>
+          <CreateButton onClick={(m) => mode.changeMode(m)} mode={mode.current}/>
+          <ModeButton onClick={(m) => mode.changeMode(m)} mode={mode.current}/>
+          <SimpleModal
+            open={mode.current == 'create'}
+            handleClose={() => mode.changeMode('normal')}
+            body={
+              <SimpleForm
+                placeholder={"リストを作成する"}
+                handlePost={(post) => {todo.createTodo(post); mode.changeMode('normal')}}
+              />
+            }
           />
-        }
-      />
-      <ModeLabel/>
+          <ModeLabel/>
+        </>
+      }
     </div>
   );
 }
