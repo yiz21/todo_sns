@@ -25,18 +25,6 @@ const useStyles = makeStyles((theme) => ({
 export default function SearchForm() {
   const[values, setValues] = useState({ visibleTodo: [], update: false });
 
-  const changeVisibleTodo = (id, value) => {
-    let updateTodos = values["visibleTodo"];
-    updateTodos = updateTodos.map(t => {
-      if (t.id == id) {
-        t.name = value
-        return t;
-      }
-      return t;
-    });
-    setValues({ ...values, ['visibleTodo']: updateTodos });
-  }
-
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };

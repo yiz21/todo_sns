@@ -119,9 +119,21 @@ export const doneTodo = async (id) => {
 
 export const shareTodo = async (id) => {
   try {
-    const res = await Axios.post(`/api/v1/open_todos/`, {todo_id: id});
+    const res = await Axios.post(`/api/v1/open_todos`, {todo_id: id});
     return res
   } catch (error) {
     throw error;
   }
 }
+
+export const importTodo = async (id) => {
+  console.log('hgjfjfjfjfjfjj');
+  console.log(id);
+  try {
+    const res = await Axios.post(`/api/v1/todos/import`, {open_todo_id: id});
+    return res
+  } catch (error) {
+    throw error;
+  }
+}
+

@@ -6,7 +6,8 @@ import {
   updateTodo,
   deleteTodo,
   doneTodo,
-  shareTodo
+  shareTodo,
+  importTodo
 } from '../requests/api'
 import { Snack } from '../data/snack';
 
@@ -99,6 +100,15 @@ const TodoContext = ({ children }) => {
     }
   }
 
+  const _importTodo = async (openTodo) => {
+    try {
+      await importTodo(openTodo.id);
+      mutate();
+    } catch (error) {
+      snack.snackOn({ kind: 'error', message: '通信でエラーが発生しました' });
+    }
+  }
+
   return (
     <Todo.Provider
       value={{
@@ -110,7 +120,8 @@ const TodoContext = ({ children }) => {
         updateLocalTodo: (todo) => _updateLocalTodo(todo),
         deleteTodo: (todo) => _deleteTodo(todo),
         doneTodo: (todo) => _doneTodo(todo),
-        shareTodo: (todo) => _shareTodo(todo)
+        shareTodo: (todo) => _shareTodo(todo),
+        importTodo: (openTodo) => _importTodo(openTodo),
       }}
     >
       {children}

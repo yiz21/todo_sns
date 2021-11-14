@@ -1,11 +1,11 @@
 import React, { useEffect, useContext } from 'react';
 import useOpenTodo from '../data/useOpenTodo';
-import BrowseTodoCard from '../components/BrowseTodoCard';
 import { Navigation } from '../data/navigation';
 import BackDrop from '../components/BackDrop';
 import useUser from '../data/useUser';
 import { useRouter } from 'next/router';
 import { makeStyles } from '@material-ui/core/styles';
+import MediaCard from '../components/MediaCard';
 
 const useStyles = makeStyles({
   root: {
@@ -30,7 +30,7 @@ const Browse = () => {
       {openTodoLoading && <BackDrop enable={openTodoLoading}/>}
       {!openTodoLoading && openTodos && (
         openTodos.map((todo) => (
-          <BrowseTodoCard key={todo.id} todo={todo}/>
+          <MediaCard openTodo={todo}/>
         ))
       )}
     </div>
